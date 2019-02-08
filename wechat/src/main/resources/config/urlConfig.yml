@@ -1,0 +1,7 @@
+unifiedOrder: https://api.mch.weixin.qq.com/pay/unifiedorder
+orderQuery: https://api.mch.weixin.qq.com/pay/orderquery
+closeOrder: https://api.mch.weixin.qq.com/pay/closeorder
+refund: https://api.mch.weixin.qq.com/secapi/pay/refund
+refundQuery: https://api.mch.weixin.qq.com/pay/refundquery
+downloadBill: https://api.mch.weixin.qq.com/pay/downloadbill
+downloadFundFlow: https://api.mch.weixin.qq.com/pay/downloadfundflow

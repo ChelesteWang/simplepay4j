@@ -1,0 +1,43 @@
+target/
+src/test/
+application-dev.properties
+application-pro.properties
+application-dev_*.properties
+application-pro_*.properties
+*-dev.yml
+
+generatorConfig.xml
+*.log
+
+# IntelliJ project files
+*.iml
+*.iws
+*.ipr
+.idea
+out
+
+# eclipse project file
+.settings
+.classpath
+.project
+build
+.springBeans
+.factorypath
+
+# vim
+*~
+*.swp
+
+# ctags
+tags
+
+# OS X
+.DS_Store
+
+#elasticsearch
+*.st
+*.lock
+
+.mvn
+mvnw
+mvnw.cmd
