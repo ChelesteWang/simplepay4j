@@ -4,7 +4,7 @@ import com.applcn.core.model.OrderQueryModel;
 import enums.SignTypeEnum;
 
 /**
- * 微信支付订单查询
+ * 微信支付订单查询模型
  * @author dayaoguai
  */
 public class WxOrderQueryModel implements OrderQueryModel {

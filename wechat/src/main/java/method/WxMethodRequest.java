@@ -1,30 +1,27 @@
 package method;
 
-import com.applcn.core.model.AccountModel;
-import com.applcn.core.model.CloseOrderModel;
-import com.applcn.core.model.OrderQueryModel;
-import com.applcn.core.model.UnifiedOrderModel;
+import com.applcn.core.model.*;
 import com.applcn.core.proxy.MethodProxy;
 import com.applcn.core.utils.StringUtil;
 import com.applcn.core.utils.XmlUtil;
 import config.UrlConfig;
 import consts.WxCloseOrderRequestConsts;
 import consts.WxOrderQueryRequestConsts;
+import consts.WxRefundRequestConsts;
 import consts.WxUnifiedOrderRquestConsts;
 import enums.SignTypeEnum;
 import enums.TradeTypeEnum;
 import enums.WxReturnCodeEnum;
 import exception.WxParamException;
-import model.WxAccountModel;
-import model.WxCloseOrderModel;
-import model.WxOrderQueryModel;
-import model.WxUnifiedOrderModel;
+import model.*;
 import response.WxCloseOrderResponse;
 import response.WxOrderQueryResponse;
+import response.WxRefundResponse;
 import response.WxUnifiedOrderResponse;
 import util.HttpUtil;
 import util.SignUtil;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -46,7 +43,8 @@ public class WxMethodRequest implements MethodProxy {
     public WxUnifiedOrderResponse unifiedOrder(UnifiedOrderModel unifiedOrderModel) throws Exception {
         WxUnifiedOrderModel unifiedOrder = (WxUnifiedOrderModel) unifiedOrderModel;
 
-        Map<String, String> params = new HashMap<>();
+        Field[] fields = unifiedOrder.getClass().getDeclaredFields();
+        Map<String, String> params = new HashMap<>(fields.length);
         TradeTypeEnum tradeType = unifiedOrder.getTradeType();
         SignTypeEnum signType = unifiedOrder.getSignType();
 
@@ -109,7 +107,9 @@ public class WxMethodRequest implements MethodProxy {
     @Override
     public WxOrderQueryResponse orderQuery(OrderQueryModel orderQueryModel) throws Exception {
         WxOrderQueryModel orderQuery = (WxOrderQueryModel) orderQueryModel;
-        Map<String, String> params = new HashMap<>();
+
+        Field[] fields = orderQuery.getClass().getDeclaredFields();
+        Map<String, String> params = new HashMap<>(fields.length);
         SignTypeEnum signType = orderQuery.getSignType();
         params.put(WxOrderQueryRequestConsts.APP_ID, accountModel.getAppid());
         params.put(WxOrderQueryRequestConsts.MCH_ID, accountModel.getMchId());
@@ -148,7 +148,9 @@ public class WxMethodRequest implements MethodProxy {
     @Override
     public WxCloseOrderResponse closeOrder(CloseOrderModel closeOrderModel) throws Exception {
         WxCloseOrderModel closeOrder = (WxCloseOrderModel) closeOrderModel;
-        Map<String, String> params = new HashMap<>();
+
+        Field[] fields = closeOrder.getClass().getDeclaredFields();
+        Map<String, String> params = new HashMap<>(fields.length);
         SignTypeEnum signType = closeOrder.getSignType();
         params.put(WxCloseOrderRequestConsts.APP_ID, accountModel.getAppid());
         params.put(WxCloseOrderRequestConsts.MCH_ID, accountModel.getMchId());
@@ -163,6 +165,46 @@ public class WxMethodRequest implements MethodProxy {
 
         WxCloseOrderResponse response = XmlUtil.xmlToPojo(resultXml, WxCloseOrderResponse.class);
 
+        if(WxReturnCodeEnum.SUCCESS.getValue().equals(response.getReturnCode())){
+            if(WxReturnCodeEnum.SUCCESS.getValue().equals(response.getResultCode())){
+                return response;
+            }else{
+                throw new WxParamException(response.getResultCode());
+            }
+        }else{
+            throw new WxParamException(response.getReturnMsg());
+        }
+    }
+
+    @Override
+    public WxRefundResponse refund(RefundModerl refundModerl) throws Exception {
+        WxRefundModel refundModel = (WxRefundModel) refundModerl;
+
+        Field[] fields = refundModel.getClass().getDeclaredFields();
+        Map<String, String> params = new HashMap<>(fields.length);
+        SignTypeEnum signType = refundModel.getSignType();
+        params.put(WxRefundRequestConsts.APP_ID, accountModel.getAppid());
+        params.put(WxRefundRequestConsts.MCH_ID, accountModel.getMchId());
+        params.put(WxRefundRequestConsts.NONCE_STR, UUID.randomUUID().toString().replace("-", ""));
+        params.put(WxRefundRequestConsts.OUT_TRADE_NO, refundModel.getOutTradeNo());
+        params.put(WxRefundRequestConsts.SIGN_TYPE, signType.getValue());
+        params.put(WxRefundRequestConsts.TRANSACTION_ID, refundModel.getTransactionId());
+        params.put(WxRefundRequestConsts.OUT_TRADE_NO, refundModel.getOutTradeNo());
+        params.put(WxRefundRequestConsts.OUT_REFUND_NO, refundModel.getOutRefundNo());
+        params.put(WxRefundRequestConsts.TOTAL_FEE, refundModel.getTotalFee().toString());
+        params.put(WxRefundRequestConsts.REFUND_FEE, refundModel.getRefundFee().toString());
+        params.put(WxRefundRequestConsts.REFUND_FEE_TYPE, refundModel.getRefundFeeType());
+        params.put(WxRefundRequestConsts.REFUND_DESC, refundModel.getRefundDesc());
+        params.put(WxRefundRequestConsts.REFUND_ACCOUNT, refundModel.getRefundAccount());
+        params.put(WxRefundRequestConsts.NOTIFY_URL, refundModel.getNotifyUrl());
+
+        params.put(WxRefundRequestConsts.SIGN, SignUtil.sign(params, accountModel.getKey(), signType));
+
+        String xml = XmlUtil.mapToXml(params, true);
+
+        String resultXml = HttpUtil.post(UrlConfig.getInstance().getCloseOrder(), xml);
+
+        WxRefundResponse response = XmlUtil.xmlToPojo(resultXml, WxRefundResponse.class);
         if(WxReturnCodeEnum.SUCCESS.getValue().equals(response.getReturnCode())){
             if(WxReturnCodeEnum.SUCCESS.getValue().equals(response.getResultCode())){
                 return response;

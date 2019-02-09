@@ -3,8 +3,9 @@ package com.applcn.core.result;
 import java.io.Serializable;
 
 /**
- * 统一下单返回结果
+ * 申请退款返回结果
  * @author dayaoguai
  */
-public interface UnifiedOrderResult extends Serializable {
+public interface RefundResult extends Serializable {
+
 }

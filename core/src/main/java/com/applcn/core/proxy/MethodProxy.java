@@ -1,11 +1,9 @@
 package com.applcn.core.proxy;
 
-import com.applcn.core.model.AccountModel;
-import com.applcn.core.model.CloseOrderModel;
-import com.applcn.core.model.OrderQueryModel;
-import com.applcn.core.model.UnifiedOrderModel;
+import com.applcn.core.model.*;
 import com.applcn.core.result.CloseOrderResult;
 import com.applcn.core.result.QueryOrderResult;
+import com.applcn.core.result.RefundResult;
 import com.applcn.core.result.UnifiedOrderResult;
 
 /**
@@ -39,4 +37,11 @@ public interface MethodProxy {
      * @return
      */
     CloseOrderResult closeOrder(CloseOrderModel closeOrderModel) throws Exception;
+
+    /**
+     * 申请退款
+     * @param refundModerl
+     * @return
+     */
+    RefundResult refund(RefundModerl refundModerl) throws Exception;
 }
