@@ -1,5 +1,9 @@
 ### 项目简介
 simplepay4j是一个集成支付工具的java拓展包，目前只集成了微信支付基本功能
+
+oschina地址：https://gitee.com/yaoguaiDa/simplepay4j  
+github地址：https://github.com/YaoguaiDa/simplepay4j
+
 * 为什么要重复造轮子？  
 ——年假在家闲呐！
 ### 项目特点

@@ -8,9 +8,9 @@
 		<version>2.1.2.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.applcn.com</groupId>
+	<groupId>com.applcn</groupId>
 	<artifactId>example</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-alpha</version>
 	<name>example</name>
 	<description>Demo project for Spring Boot</description>
 
