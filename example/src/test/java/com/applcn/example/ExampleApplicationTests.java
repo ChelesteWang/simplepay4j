@@ -94,7 +94,7 @@ public class ExampleApplicationTests {
 	}
 
 	/**
-	 * native(扫码支付)支付demo
+	 * native支付demo
 	 * @throws Exception
 	 */
 	@Test
@@ -122,7 +122,7 @@ public class ExampleApplicationTests {
 				"116.208.50.7","", TradeTypeEnum.NATIVE);
 
 		/**
-		 * 当支付方式为jnative(扫码支付)支付时必传用户openid和商户商品id
+		 * 当支付方式为native(支付时必传用户openid和商户商品id
 		 * openid固定在方法的第一个参数
 		 * 商户商品id此时比船，固定在方法的第二个参数
 		 */
