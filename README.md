@@ -62,4 +62,5 @@ github地址：https://github.com/YaoguaiDa/simplepay4j
         待完成
     
 ### 其它
+* 项目demo在example/test/java/下，使用的是springboottest，亲测
 * 项目才开始还没写完，还需要优化，也还没经过详细测试，仅作为技术交流用，反正别拿去生产环境用！别拿去生产环境用！别拿去生产环境用！    
