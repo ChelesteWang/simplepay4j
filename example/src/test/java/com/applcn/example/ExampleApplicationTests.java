@@ -126,7 +126,7 @@ public class ExampleApplicationTests {
 		 * openid固定在方法的第一个参数，此参数可不传但目前必须要一个空字符串占位
 		 * 商户商品id此时比船，固定在方法的第二个参数
 		 */
-		unifiedOrderModel.expand("", "123456");
+		unifiedOrderModel.expand(openid, "123456");
 
 		WxUnifiedOrderResponse result = (WxUnifiedOrderResponse) proxy.unifiedOrder(unifiedOrderModel);
 
