@@ -1,7 +1,7 @@
 package com.applcn.wechat.response;
 
-import com.applcn.wechat.core.annotation.XmlNode;
-import com.applcn.wechat.core.result.UnifiedOrderResult;
+import com.applcn.example.annotation.XmlNode;
+import com.applcn.example.result.UnifiedOrderResult;
 import com.applcn.wechat.enums.SignTypeEnum;
 import com.applcn.wechat.enums.TradeTypeEnum;
 import com.applcn.wechat.util.SignUtil;

@@ -1,7 +1,7 @@
 package com.applcn.wechat.model;
 
-import com.applcn.wechat.core.annotation.Exclude;
-import com.applcn.wechat.core.model.UnifiedOrderModel;
+import com.applcn.example.annotation.Exclude;
+import com.applcn.example.model.UnifiedOrderModel;
 import com.applcn.wechat.enums.SignTypeEnum;
 import com.applcn.wechat.enums.TradeTypeEnum;
 

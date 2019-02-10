@@ -1,7 +1,7 @@
 package com.applcn.wechat.response;
 
-import com.applcn.wechat.core.annotation.XmlNode;
-import com.applcn.wechat.core.result.CloseOrderResult;
+import com.applcn.example.annotation.XmlNode;
+import com.applcn.example.result.CloseOrderResult;
 
 /**
  * 微信关闭订单返回

@@ -1,8 +1,8 @@
 package com.applcn.wechat.model;
 
-import com.applcn.wechat.core.annotation.XmlNode;
-import com.applcn.wechat.core.model.OrderModel;
-import com.applcn.wechat.core.proxy.NotifyManageProxy;
+import com.applcn.example.annotation.XmlNode;
+import com.applcn.example.model.OrderModel;
+import com.applcn.example.proxy.NotifyManageProxy;
 import com.applcn.wechat.method.WxNotifyManage;
 
 /**

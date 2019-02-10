@@ -1,6 +1,6 @@
 package com.applcn.wechat.model;
 
-import com.applcn.wechat.core.model.OrderQueryModel;
+import com.applcn.example.model.OrderQueryModel;
 import com.applcn.wechat.enums.SignTypeEnum;
 
 /**

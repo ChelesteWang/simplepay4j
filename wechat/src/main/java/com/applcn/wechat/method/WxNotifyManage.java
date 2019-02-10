@@ -1,8 +1,8 @@
 package com.applcn.wechat.method;
 
-import com.applcn.wechat.core.model.OrderModel;
-import com.applcn.wechat.core.proxy.NotifyManageProxy;
-import com.applcn.wechat.core.utils.MapUtil;
+import com.applcn.example.model.OrderModel;
+import com.applcn.example.proxy.NotifyManageProxy;
+import com.applcn.example.utils.MapUtil;
 import com.applcn.wechat.enums.SignTypeEnum;
 import com.applcn.wechat.model.WxOrderModel;
 import com.applcn.wechat.util.SignUtil;

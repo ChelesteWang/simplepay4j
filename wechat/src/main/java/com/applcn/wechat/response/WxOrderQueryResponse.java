@@ -1,7 +1,10 @@
 package com.applcn.wechat.response;
 
-import com.applcn.wechat.core.annotation.XmlNode;
-import com.applcn.wechat.core.result.QueryOrderResult;
+import com.applcn.example.annotation.Pattern;
+import com.applcn.example.annotation.XmlNode;
+import com.applcn.example.result.QueryOrderResult;
+
+import java.util.List;
 
 /**
  * 微信订单查询返回
@@ -172,6 +175,31 @@ public class WxOrderQueryResponse implements QueryOrderResult {
      */
     @XmlNode("trade_state_desc")
     private String tradeStateDesc;
+
+    /**
+     * 代金券类型
+     */
+    @Pattern("/^coupon_type_\\d+$/")
+    private List<String> couponTypeList;
+
+    /**
+     * 代金券ID
+     */
+    @Pattern("/^coupon_id_\\d+$/")
+    private List<String> couponIdList;
+
+    /**
+     * 单个代金券支付金额
+     */
+    @Pattern("/^coupon_fee_\\d+$/")
+    private List<String> couponFeeList;
+
+//    public static void main(String[] args){
+//        String str = "coupon_fee_2";
+//        String reg = "^coupon_fee_\\d+$";
+//        boolean isMatch = Pattern.matches(reg, str);
+//        System.out.println(isMatch);
+//    }
 
     public String getReturnCode() {
         return returnCode;
@@ -387,5 +415,29 @@ public class WxOrderQueryResponse implements QueryOrderResult {
 
     public void setTradeStateDesc(String tradeStateDesc) {
         this.tradeStateDesc = tradeStateDesc;
+    }
+
+    public List<String> getCouponTypeList() {
+        return couponTypeList;
+    }
+
+    public void setCouponTypeList(List<String> couponTypeList) {
+        this.couponTypeList = couponTypeList;
+    }
+
+    public List<String> getCouponIdList() {
+        return couponIdList;
+    }
+
+    public void setCouponIdList(List<String> couponIdList) {
+        this.couponIdList = couponIdList;
+    }
+
+    public List<String> getCouponFeeList() {
+        return couponFeeList;
+    }
+
+    public void setCouponFeeList(List<String> couponFeeList) {
+        this.couponFeeList = couponFeeList;
     }
 }

@@ -1,8 +1,8 @@
 package com.applcn.wechat.util;
 
 import com.applcn.wechat.consts.WxUnifiedOrderRquestConsts;
-import com.applcn.wechat.core.utils.EncryptUtil;
-import com.applcn.wechat.core.utils.StringUtil;
+import com.applcn.example.utils.EncryptUtil;
+import com.applcn.example.utils.StringUtil;
 import com.applcn.wechat.enums.SignTypeEnum;
 
 import java.util.ArrayList;

@@ -1,13 +1,13 @@
 package com.applcn.wechat.model;
 
-import com.applcn.wechat.core.model.RefundModerl;
+import com.applcn.example.model.RefundModel;
 import com.applcn.wechat.enums.SignTypeEnum;
 
 /**
  * 微信退款模型
  * @author dayaoguai
  */
-public class WxRefundModel implements RefundModerl {
+public class WxRefundModel implements RefundModel {
 
     /**
      * 签名类型

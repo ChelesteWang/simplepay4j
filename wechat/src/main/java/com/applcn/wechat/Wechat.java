@@ -1,11 +1,11 @@
 package com.applcn.wechat;
 
-import com.applcn.wechat.core.handler.MethodHandler;
-import com.applcn.wechat.core.handler.NotifyHandler;
-import com.applcn.wechat.core.proxy.MethodProxy;
-import com.applcn.wechat.core.proxy.NotifyManageProxy;
-import com.applcn.wechat.core.utils.StringUtil;
-import com.applcn.wechat.core.utils.XmlUtil;
+import com.applcn.example.handler.MethodHandler;
+import com.applcn.example.handler.NotifyHandler;
+import com.applcn.example.proxy.MethodProxy;
+import com.applcn.example.proxy.NotifyManageProxy;
+import com.applcn.example.utils.StringUtil;
+import com.applcn.example.utils.XmlUtil;
 import com.applcn.wechat.method.WxMethodRequest;
 import com.applcn.wechat.method.WxNotifyManage;
 import com.applcn.wechat.model.WxAccountModel;

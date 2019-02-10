@@ -1,7 +1,7 @@
 package com.applcn.wechat.model;
 
-import com.applcn.wechat.core.model.AccountModel;
-import com.applcn.wechat.core.proxy.MethodProxy;
+import com.applcn.example.model.AccountModel;
+import com.applcn.example.proxy.MethodProxy;
 import com.applcn.wechat.method.WxMethodRequest;
 
 /**

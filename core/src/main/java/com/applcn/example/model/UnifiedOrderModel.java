@@ -1,0 +1,8 @@
+package com.applcn.example.model;
+
+/**
+ * 统一下单模型接口
+ * @author dayaoguai
+ */
+public interface UnifiedOrderModel {
+}

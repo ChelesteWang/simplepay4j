@@ -53,12 +53,13 @@ public class UrlConfig {
     }
 
     public static UrlConfig getInstance() throws FileNotFoundException {
+        String path = UrlConfig.class.getClassLoader().getResource("config/urlConfig.yml").getPath();
         if (instance == null) {
             synchronized (UrlConfig.class) {
                 if (instance == null) {
                     Yaml yaml = new Yaml();
                     instance = yaml.loadAs(new FileInputStream(
-                                    new File(UrlConfig.class.getClassLoader().getResource("config/urlConfig.yml").getPath())),
+                                    new File(path)),
                             UrlConfig.class);
                 }
             }

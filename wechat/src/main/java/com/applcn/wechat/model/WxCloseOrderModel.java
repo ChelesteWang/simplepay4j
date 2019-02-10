@@ -1,6 +1,6 @@
 package com.applcn.wechat.model;
 
-import com.applcn.wechat.core.model.CloseOrderModel;
+import com.applcn.example.model.CloseOrderModel;
 import com.applcn.wechat.enums.SignTypeEnum;
 
 /**

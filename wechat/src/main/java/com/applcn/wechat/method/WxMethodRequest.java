@@ -1,23 +1,20 @@
 package com.applcn.wechat.method;
 
+import com.applcn.example.model.*;
 import com.applcn.wechat.config.UrlConfig;
 import com.applcn.wechat.consts.WxCloseOrderRequestConsts;
 import com.applcn.wechat.consts.WxOrderQueryRequestConsts;
 import com.applcn.wechat.consts.WxRefundRequestConsts;
 import com.applcn.wechat.consts.WxUnifiedOrderRquestConsts;
-import com.applcn.wechat.core.model.*;
-import com.applcn.wechat.core.proxy.MethodProxy;
-import com.applcn.wechat.core.utils.StringUtil;
-import com.applcn.wechat.core.utils.XmlUtil;
+import com.applcn.example.proxy.MethodProxy;
+import com.applcn.example.utils.StringUtil;
+import com.applcn.example.utils.XmlUtil;
 import com.applcn.wechat.enums.SignTypeEnum;
 import com.applcn.wechat.enums.TradeTypeEnum;
 import com.applcn.wechat.enums.WxReturnCodeEnum;
 import com.applcn.wechat.exception.WxParamException;
 import com.applcn.wechat.model.*;
-import com.applcn.wechat.response.WxCloseOrderResponse;
-import com.applcn.wechat.response.WxOrderQueryResponse;
-import com.applcn.wechat.response.WxRefundResponse;
-import com.applcn.wechat.response.WxUnifiedOrderResponse;
+import com.applcn.wechat.response.*;
 import com.applcn.wechat.util.HttpUtil;
 import com.applcn.wechat.util.SignUtil;
 
@@ -29,6 +26,7 @@ import java.util.UUID;
 
 /**
  * 微信支付
+ * @author dayaoguai
  */
 public class WxMethodRequest implements MethodProxy {
 
@@ -177,7 +175,7 @@ public class WxMethodRequest implements MethodProxy {
     }
 
     @Override
-    public WxRefundResponse refund(RefundModerl refundModerl) throws Exception {
+    public WxRefundResponse refund(RefundModel refundModerl) throws Exception {
         WxRefundModel refundModel = (WxRefundModel) refundModerl;
 
         Field[] fields = refundModel.getClass().getDeclaredFields();
@@ -214,5 +212,11 @@ public class WxMethodRequest implements MethodProxy {
         }else{
             throw new WxParamException(response.getReturnMsg());
         }
+    }
+
+    @Override
+    public WxRefundQueryResponse refundquery(RefundQueryModel refundQueryModel) {
+
+        return null;
     }
 }
