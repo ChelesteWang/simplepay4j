@@ -94,7 +94,7 @@ public class ExampleApplicationTests {
 	}
 
 	/**
-	 * native支付demo
+	 * native(扫码支付)支付demo
 	 * @throws Exception
 	 */
 	@Test
@@ -119,20 +119,23 @@ public class ExampleApplicationTests {
 		 * tradeType：为枚举类型，当支付方式为jsapi/jssdk/微信小程序支付时固定传TradeTypeEnum.JSAPI
 		 */
 		WxUnifiedOrderModel unifiedOrderModel = new WxUnifiedOrderModel("测试商品","wxtest11114",10,
-				"116.208.50.7","", TradeTypeEnum.NATIVE);
+				ip,"", TradeTypeEnum.NATIVE);
 
 		/**
-		 * 当支付方式为native(支付时必传用户openid和商户商品id
+		 * 当支付方式为native(扫码支付)支付时必传商户商品id
+		 * TODO 猜测当商户未开通扫码支付时，必传用户openid
+		 * TODO 因为刚刚测试，不传openid会报mch_id不正确，传了openid之后只能openid代表的用户支付其它用户无权支付
+		 * TODO 因此感觉此处会有这么一个bug
 		 * openid固定在方法的第一个参数
 		 * 商户商品id此时比船，固定在方法的第二个参数
 		 */
-		unifiedOrderModel.expand(openid, "123456");
+		unifiedOrderModel.expand("", "123456");
 
 		WxUnifiedOrderResponse result = (WxUnifiedOrderResponse) proxy.unifiedOrder(unifiedOrderModel);
 
 		/**
 		 * 此时result中codeUrl一定存在
-		 * 使用者可将codeUrl返回给前端，由前端生成二维码，用户用微信扫描此二维码即可调起支付
+		 * 使用者可将codeUrl返回给前端，由前端生成二码，用户用微信扫描此二维码即可调起支付
 		 */
 		System.out.println(result.getCodeUrl());
 	}
