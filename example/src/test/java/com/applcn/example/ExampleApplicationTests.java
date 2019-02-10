@@ -122,8 +122,8 @@ public class ExampleApplicationTests {
 				"116.208.50.7","", TradeTypeEnum.NATIVE);
 
 		/**
-		 * 当支付方式为jnative(扫码支付)支付时必传商户商品id
-		 * openid固定在方法的第一个参数，此参数可不传但目前必须要一个空字符串占位
+		 * 当支付方式为jnative(扫码支付)支付时必传用户openid和商户商品id
+		 * openid固定在方法的第一个参数
 		 * 商户商品id此时比船，固定在方法的第二个参数
 		 */
 		unifiedOrderModel.expand(openid, "123456");
