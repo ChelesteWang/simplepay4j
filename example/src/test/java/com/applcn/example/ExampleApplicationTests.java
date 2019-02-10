@@ -123,11 +123,8 @@ public class ExampleApplicationTests {
 
 		/**
 		 * 当支付方式为native(扫码支付)支付时必传商户商品id
-		 * TODO 猜测当商户未开通扫码支付时，必传用户openid
-		 * TODO 因为刚刚测试，不传openid会报mch_id不正确，传了openid之后只能openid代表的用户支付其它用户无权支付
-		 * TODO 因此感觉此处会有这么一个bug
-		 * openid固定在方法的第一个参数
-		 * 商户商品id此时比船，固定在方法的第二个参数
+		 * openid固定在方法的第一个参数，但是不是必传但是需要一个空字符串或者null进行占位，若此参数传了，那么该支付只能由openid代表的用户来支付
+		 * 商户商品id此时必传，固定在方法的第二个参数
 		 */
 		unifiedOrderModel.expand("", "123456");
 
