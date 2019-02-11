@@ -1,5 +1,6 @@
 package com.applcn.example.utils;
 
+import com.applcn.example.annotation.XmlPattern;
 import com.applcn.example.annotation.XmlNode;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -12,8 +13,11 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * xml工具
@@ -98,40 +102,70 @@ public class XmlUtil {
         NodeList nodeList = doc.getDocumentElement().getChildNodes();
         Field[] fields = obj.getClass().getDeclaredFields();
 
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                for (Field item:fields) {
-                    String name;
-                    if(item.isAnnotationPresent(XmlNode.class)){
-                        name = item.getAnnotation(XmlNode.class).value();
-                    }else{
-                        name = item.getName();
-                    }
+        for (Field item:fields) {
+            List<String> list = new ArrayList<>();
+            Method setListMethod = null;
+            for (int i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    if(item.isAnnotationPresent(XmlPattern.class)){
+                        String regex = item.getAnnotation(XmlPattern.class).value();
+                        String name = element.getNodeName();
+                        String value = element.getNodeValue();
+                        boolean isMatch = Pattern.matches(regex, name);
+                        if(isMatch){
+                            StringBuffer strBuffer = new StringBuffer("{");
+                            strBuffer.append("\"");
+                            strBuffer.append(name);
+                            strBuffer.append("\"");
+                            strBuffer.append(":");
+                            strBuffer.append("\"");
+                            strBuffer.append(value);
+                            strBuffer.append("\"");
+                            strBuffer.append("}");
+                            list.add(strBuffer.toString());
 
-                    if(name.equals(element.getNodeName()) && element.getTextContent() != null){
-                        Method method;
-                        String value = element.getTextContent();
-                        String genericType = item.getGenericType().toString();
-                        String className = item.getType().getName();
-                        String methodName = item.getName().substring(0, 1).toUpperCase() + item.getName().substring(1);
-                        method = obj.getClass().getMethod("set" + methodName, Class.forName(className));
-
-                        if("class java.lang.String".equals(genericType)){
-                            method.invoke(obj,  value);
+                            String className = item.getType().getName();
+                            String methodName = item.getName().substring(0, 1).toUpperCase() + item.getName().substring(1);
+                            setListMethod = obj.getClass().getMethod("set" + methodName, Class.forName(className));
+                        }
+                    } else {
+                        String name;
+                        if (item.isAnnotationPresent(XmlNode.class)) {
+                            name = item.getAnnotation(XmlNode.class).value();
+                        } else {
+                            name = item.getName();
                         }
 
-                        if("class java.lang.Integer".equals(genericType)){
-                            method.invoke(obj,  Integer.parseInt(value));
-                        }
+                        if (name.equals(element.getNodeName()) && element.getTextContent() != null) {
+                            Method method;
+                            String value = element.getTextContent();
+                            String genericType = item.getGenericType().toString();
+                            String className = item.getType().getName();
+                            String methodName = item.getName().substring(0, 1).toUpperCase() + item.getName().substring(1);
+                            method = obj.getClass().getMethod("set" + methodName, Class.forName(className));
 
-                        if("class java.lang.Long".equals(genericType)){
-                            method.invoke(obj,  Long.parseLong(value));
-                        }
+                            if ("class java.lang.String".equals(genericType)) {
+                                method.invoke(obj, value);
+                            }
 
+                            if ("class java.lang.Integer".equals(genericType)) {
+                                method.invoke(obj, Integer.parseInt(value));
+                            }
+
+                            if ("class java.lang.Long".equals(genericType)) {
+                                method.invoke(obj, Long.parseLong(value));
+                            }
+
+                        }
                     }
                 }
+            }
+
+            // TODO 新增处理$n类型数据待测
+            if(list.size() != 0 && setListMethod != null){
+                setListMethod.invoke(obj, list);
             }
         }
         stream.close();

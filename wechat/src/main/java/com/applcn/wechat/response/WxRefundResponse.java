@@ -1,7 +1,10 @@
 package com.applcn.wechat.response;
 
 import com.applcn.example.annotation.XmlNode;
+import com.applcn.example.annotation.XmlPattern;
 import com.applcn.example.result.RefundResult;
+
+import java.util.List;
 
 /**
  * 微信退款返回
@@ -148,6 +151,24 @@ public class WxRefundResponse implements RefundResult {
      */
     @XmlNode("coupon_refund_count")
     private String couponFefundCount;
+
+    /**
+     * 代金券类型
+     */
+    @XmlPattern("^coupon_type_\\d+$")
+    private List<String> couponTypeList;
+
+    /**
+     * 单个代金券退款金额
+     */
+    @XmlPattern("^coupon_refund_\\d+$")
+    private List<String> couponRefundList;
+
+    /**
+     * 退款代金券ID
+     */
+    @XmlPattern("^coupon_refund_id_\\d+$")
+    private List<String> couponRefundIdList;
 
     public String getReturnCode() {
         return returnCode;
@@ -331,5 +352,29 @@ public class WxRefundResponse implements RefundResult {
 
     public void setCouponFefundCount(String couponFefundCount) {
         this.couponFefundCount = couponFefundCount;
+    }
+
+    public List<String> getCouponTypeList() {
+        return couponTypeList;
+    }
+
+    public void setCouponTypeList(List<String> couponTypeList) {
+        this.couponTypeList = couponTypeList;
+    }
+
+    public List<String> getCouponRefundList() {
+        return couponRefundList;
+    }
+
+    public void setCouponRefundList(List<String> couponRefundList) {
+        this.couponRefundList = couponRefundList;
+    }
+
+    public List<String> getCouponRefundIdList() {
+        return couponRefundIdList;
+    }
+
+    public void setCouponRefundIdList(List<String> couponRefundIdList) {
+        this.couponRefundIdList = couponRefundIdList;
     }
 }

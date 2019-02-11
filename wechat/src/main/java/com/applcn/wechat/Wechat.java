@@ -21,7 +21,7 @@ import java.lang.reflect.Proxy;
 public class Wechat {
 
     /**
-     * 统一下单
+     * 请求方法
      * @param wxAccountModel
      * @return
      */

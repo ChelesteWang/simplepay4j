@@ -12,4 +12,5 @@ import java.lang.annotation.*;
 public @interface XmlNode {
 
     String value();
+
 }

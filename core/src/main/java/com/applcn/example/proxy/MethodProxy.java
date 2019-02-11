@@ -47,5 +47,5 @@ public interface MethodProxy {
      * @param refundQueryModel
      * @return
      */
-    RefundQueryResult refundquery(RefundQueryModel refundQueryModel);
+    RefundQueryResult refundquery(RefundQueryModel refundQueryModel) throws Exception;
 }

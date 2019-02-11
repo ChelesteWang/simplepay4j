@@ -2,10 +2,7 @@ package com.applcn.wechat.method;
 
 import com.applcn.example.model.*;
 import com.applcn.wechat.config.UrlConfig;
-import com.applcn.wechat.consts.WxCloseOrderRequestConsts;
-import com.applcn.wechat.consts.WxOrderQueryRequestConsts;
-import com.applcn.wechat.consts.WxRefundRequestConsts;
-import com.applcn.wechat.consts.WxUnifiedOrderRquestConsts;
+import com.applcn.wechat.consts.*;
 import com.applcn.example.proxy.MethodProxy;
 import com.applcn.example.utils.StringUtil;
 import com.applcn.example.utils.XmlUtil;
@@ -175,26 +172,26 @@ public class WxMethodRequest implements MethodProxy {
     }
 
     @Override
-    public WxRefundResponse refund(RefundModel refundModerl) throws Exception {
-        WxRefundModel refundModel = (WxRefundModel) refundModerl;
+    public WxRefundResponse refund(RefundModel refundModel) throws Exception {
+        WxRefundModel wxRefundModel = (WxRefundModel) refundModel;
 
         Field[] fields = refundModel.getClass().getDeclaredFields();
         Map<String, String> params = new HashMap<>(fields.length);
-        SignTypeEnum signType = refundModel.getSignType();
+        SignTypeEnum signType = wxRefundModel.getSignType();
         params.put(WxRefundRequestConsts.APP_ID, accountModel.getAppid());
         params.put(WxRefundRequestConsts.MCH_ID, accountModel.getMchId());
         params.put(WxRefundRequestConsts.NONCE_STR, UUID.randomUUID().toString().replace("-", ""));
-        params.put(WxRefundRequestConsts.OUT_TRADE_NO, refundModel.getOutTradeNo());
+        params.put(WxRefundRequestConsts.OUT_TRADE_NO, wxRefundModel.getOutTradeNo());
         params.put(WxRefundRequestConsts.SIGN_TYPE, signType.getValue());
-        params.put(WxRefundRequestConsts.TRANSACTION_ID, refundModel.getTransactionId());
-        params.put(WxRefundRequestConsts.OUT_TRADE_NO, refundModel.getOutTradeNo());
-        params.put(WxRefundRequestConsts.OUT_REFUND_NO, refundModel.getOutRefundNo());
-        params.put(WxRefundRequestConsts.TOTAL_FEE, refundModel.getTotalFee().toString());
-        params.put(WxRefundRequestConsts.REFUND_FEE, refundModel.getRefundFee().toString());
-        params.put(WxRefundRequestConsts.REFUND_FEE_TYPE, refundModel.getRefundFeeType());
-        params.put(WxRefundRequestConsts.REFUND_DESC, refundModel.getRefundDesc());
-        params.put(WxRefundRequestConsts.REFUND_ACCOUNT, refundModel.getRefundAccount());
-        params.put(WxRefundRequestConsts.NOTIFY_URL, refundModel.getNotifyUrl());
+        params.put(WxRefundRequestConsts.TRANSACTION_ID, wxRefundModel.getTransactionId());
+        params.put(WxRefundRequestConsts.OUT_TRADE_NO, wxRefundModel.getOutTradeNo());
+        params.put(WxRefundRequestConsts.OUT_REFUND_NO, wxRefundModel.getOutRefundNo());
+        params.put(WxRefundRequestConsts.TOTAL_FEE, wxRefundModel.getTotalFee().toString());
+        params.put(WxRefundRequestConsts.REFUND_FEE, wxRefundModel.getRefundFee().toString());
+        params.put(WxRefundRequestConsts.REFUND_FEE_TYPE, wxRefundModel.getRefundFeeType());
+        params.put(WxRefundRequestConsts.REFUND_DESC, wxRefundModel.getRefundDesc());
+        params.put(WxRefundRequestConsts.REFUND_ACCOUNT, wxRefundModel.getRefundAccount());
+        params.put(WxRefundRequestConsts.NOTIFY_URL, wxRefundModel.getNotifyUrl());
 
         params.put(WxRefundRequestConsts.SIGN, SignUtil.sign(params, accountModel.getKey(), signType));
 
@@ -215,8 +212,36 @@ public class WxMethodRequest implements MethodProxy {
     }
 
     @Override
-    public WxRefundQueryResponse refundquery(RefundQueryModel refundQueryModel) {
+    public WxRefundQueryResponse refundquery(RefundQueryModel refundQueryModel) throws Exception {
+        WxRefundQueryModel wxRefundQueryModel = (WxRefundQueryModel) refundQueryModel;
 
-        return null;
+        Field[] fields = wxRefundQueryModel.getClass().getDeclaredFields();
+        Map<String, String> params = new HashMap<>(fields.length);
+        SignTypeEnum signType = wxRefundQueryModel.getSignType();
+        params.put(WxRefundQueryRequestConsts.APP_ID, accountModel.getAppid());
+        params.put(WxRefundQueryRequestConsts.MCH_ID, accountModel.getMchId());
+        params.put(WxRefundQueryRequestConsts.NONCE_STR, UUID.randomUUID().toString().replace("-", ""));
+        params.put(WxRefundQueryRequestConsts.SIGN_TYPE, signType.getValue());
+        params.put(WxRefundQueryRequestConsts.TRANSACTION_ID, wxRefundQueryModel.getTransactionId());
+        params.put(WxRefundQueryRequestConsts.OUT_TRADE_NO, wxRefundQueryModel.getOutTradeNo());
+        params.put(WxRefundQueryRequestConsts.OUT_REFUND_NO, wxRefundQueryModel.getOutRefundNo());
+        params.put(WxRefundQueryRequestConsts.REFUND_ID, wxRefundQueryModel.getRefundId());
+        params.put(WxRefundQueryRequestConsts.OFFSET, wxRefundQueryModel.getOffset());
+
+        params.put(WxRefundQueryRequestConsts.SIGN, SignUtil.sign(params, accountModel.getKey(), signType));
+
+        String xml = XmlUtil.mapToXml(params, true);
+
+        String resultXml = HttpUtil.post(UrlConfig.getInstance().getCloseOrder(), xml);
+        WxRefundQueryResponse response = XmlUtil.xmlToPojo(resultXml, WxRefundQueryResponse.class);
+        if(WxReturnCodeEnum.SUCCESS.getValue().equals(response.getReturnCode())){
+            if(WxReturnCodeEnum.SUCCESS.getValue().equals(response.getResultCode())){
+                return response;
+            }else{
+                throw new WxParamException(response.getResultCode());
+            }
+        }else{
+            throw new WxParamException(response.getReturnMsg());
+        }
     }
 }

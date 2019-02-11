@@ -1,6 +1,6 @@
 package com.applcn.wechat.response;
 
-import com.applcn.example.annotation.Pattern;
+import com.applcn.example.annotation.XmlPattern;
 import com.applcn.example.annotation.XmlNode;
 import com.applcn.example.result.QueryOrderResult;
 
@@ -179,27 +179,20 @@ public class WxOrderQueryResponse implements QueryOrderResult {
     /**
      * 代金券类型
      */
-    @Pattern("/^coupon_type_\\d+$/")
+    @XmlPattern("^coupon_type_\\d+$")
     private List<String> couponTypeList;
 
     /**
      * 代金券ID
      */
-    @Pattern("/^coupon_id_\\d+$/")
+    @XmlPattern("^coupon_id_\\d+$")
     private List<String> couponIdList;
 
     /**
      * 单个代金券支付金额
      */
-    @Pattern("/^coupon_fee_\\d+$/")
+    @XmlPattern("^coupon_fee_\\d+$")
     private List<String> couponFeeList;
-
-//    public static void main(String[] args){
-//        String str = "coupon_fee_2";
-//        String reg = "^coupon_fee_\\d+$";
-//        boolean isMatch = Pattern.matches(reg, str);
-//        System.out.println(isMatch);
-//    }
 
     public String getReturnCode() {
         return returnCode;
