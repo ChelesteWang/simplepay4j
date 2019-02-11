@@ -116,10 +116,10 @@ public class ExampleApplicationTests {
 		 * totalFee：金额，单位为分
 		 * spbillCreateIp：客户端ip
 		 * notifyUrl：回调地址
-		 * tradeType：为枚举类型，当支付方式为jsapi/jssdk/微信小程序支付时固定传TradeTypeEnum.JSAPI
+		 * tradeType：为枚举类型，当支付方式为jnative(扫码支付)时固定传TradeTypeEnum.NATIVE
 		 */
 		WxUnifiedOrderModel unifiedOrderModel = new WxUnifiedOrderModel("测试商品","wxtest11114",10,
-				ip,"", TradeTypeEnum.NATIVE);
+				ip,notifyUrl, TradeTypeEnum.NATIVE);
 
 		/**
 		 * 当支付方式为native(扫码支付)支付时必传商户商品id
