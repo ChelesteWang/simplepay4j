@@ -15,10 +15,21 @@ github地址：https://github.com/YaoguaiDa/simplepay4j
 
 ### 使用方法
 * 引入项目
-    * 下载项目到本地
-    * 将项目导入到ide
-    * 在根目录运行命令: mvn clean install
-    * 在自己的项目pom.xml文件<dependencies></dependencies>节点下加入
+    * 使用最新版：
+        * 下载项目到本地
+        * 将项目导入到ide
+        * 在根目录运行命令: mvn clean install
+        * 在自己的项目pom.xml文件<dependencies></dependencies>节点下加入
+    ```xml
+     <dependency>
+        <groupId>com.applcn</groupId>
+        <artifactId>simplePay4j-wechat</artifactId>
+        <version>1.0.0-alpha</version>
+     </dependency>
+    ```
+        * 刷新maven
+    * maven仓库中的版本(包名调整之前的)：
+        * 直接在自己的项目pom.xml文件<dependencies></dependencies>节点下加入
     ```xml
      <dependency>
         <groupId>com.applcn</groupId>
@@ -26,7 +37,7 @@ github地址：https://github.com/YaoguaiDa/simplepay4j
         <version>1.0.0-alpha</version>
      </dependency>
     ```
-    * 刷新maven
+        * 刷新maven
 * 简单使用
     * jsapi/小程序支付：
     ```java

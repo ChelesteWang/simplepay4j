@@ -32,18 +32,8 @@
 
 		<dependency>
 			<groupId>com.applcn</groupId>
-			<artifactId>wechat</artifactId>
+			<artifactId>simplePay4j-wechat</artifactId>
 			<version>1.0.0-alpha</version>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>

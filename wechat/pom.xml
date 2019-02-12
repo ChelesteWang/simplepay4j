@@ -9,8 +9,29 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>wechat</artifactId>
+    <artifactId>simplePay4j-wechat</artifactId>
     <packaging>jar</packaging>
+    <name>simplePay4j-wechat</name>
+    <url>https://github.com/YaoguaiDa/simplepay4j</url>
+    <description>支付工具拓展包</description>
+    <inceptionYear>2019</inceptionYear>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+    <scm>
+        <tag>master</tag>
+        <url>https://github.com/YaoguaiDa/simplepay4j.git</url>
+        <connection>https://github.com/YaoguaiDa/simplepay4j.git</connection>
+        <developerConnection>https://github.com/YaoguaiDa/simplepay4j.git</developerConnection>
+    </scm>
+    <issueManagement>
+        <url>https://github.com/YaoguaiDa/simplepay4j/issues</url>
+    </issueManagement>
 
     <properties>
         <java.version>1.8</java.version>
@@ -19,36 +40,59 @@
     <dependencies>
         <dependency>
             <groupId>com.applcn</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>simplePay4j-core</artifactId>
             <version>1.0.0-alpha</version>
         </dependency>
     </dependencies>
 
+    <developers>
+        <developer>
+            <name>dayaoguai</name>
+            <email>1444916574@qq.com</email>
+            <organization>com.applcn</organization>
+        </developer>
+    </developers>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <verbose>true</verbose>
-                    <fork>true</fork>
-                    <executable>${JAVA_HOME}/bin/javac</executable>
-                    <compilerVersion>${java.version}</compilerVersion>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>2.1.2</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
-                        <phase>verify</phase>
                         <goals>
                             <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
                         </goals>
                     </execution>
                 </executions>
