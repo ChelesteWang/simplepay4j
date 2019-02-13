@@ -48,4 +48,11 @@ public interface MethodProxy {
      * @return
      */
     RefundQueryResult refundquery(RefundQueryModel refundQueryModel) throws Exception;
+
+    /**
+     * 查询
+     * @param refundNotifyModel
+     * @return
+     */
+    RefundNotifyResult refundNotify(RefundNotifyModel refundNotifyModel) throws Exception;
 }

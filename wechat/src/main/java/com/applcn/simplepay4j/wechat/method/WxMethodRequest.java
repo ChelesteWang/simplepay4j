@@ -1,6 +1,8 @@
 package com.applcn.simplepay4j.wechat.method;
 
 import com.applcn.simplepay4j.core.model.*;
+import com.applcn.simplepay4j.core.result.RefundNotifyResult;
+import com.applcn.simplepay4j.core.utils.EncryptUtil;
 import com.applcn.simplepay4j.wechat.config.UrlConfig;
 import com.applcn.simplepay4j.wechat.consts.*;
 import com.applcn.simplepay4j.wechat.enums.SignTypeEnum;
@@ -242,6 +244,32 @@ public class WxMethodRequest implements MethodProxy {
             }
         }else{
             throw new WxParamException(response.getReturnMsg());
+        }
+    }
+
+    @Override
+    public RefundNotifyResult refundNotify(RefundNotifyModel refundNotifyModel) throws Exception {
+        WxRefundNotifyModel model = (WxRefundNotifyModel) refundNotifyModel;
+
+        if(WxReturnCodeEnum.SUCCESS.getValue().equals(model.getReturnCode())){
+
+            /**
+             * 对加密串A做base64解码，得到加密串B
+             */
+            String b = EncryptUtil.base64DecodeString(model.getReqInfo());
+
+            /**
+             * 对商户key做md5，得到32位小写key*
+             */
+            String key = EncryptUtil.md5encryption(accountModel.getKey());
+
+            String xmlResult = EncryptUtil.aes256Decode(b, key);
+
+            WxRefundNotifyResponse response = XmlUtil.xmlToPojo(xmlResult, WxRefundNotifyResponse.class);
+            return response;
+
+        }else{
+            throw new WxParamException(model.getReturnMsg());
         }
     }
 }

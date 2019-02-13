@@ -113,22 +113,24 @@ public class XmlUtil {
                         String regex = item.getAnnotation(XmlPattern.class).value();
                         String name = element.getNodeName();
                         String value = element.getNodeValue();
-                        boolean isMatch = Pattern.matches(regex, name);
-                        if(isMatch){
-                            StringBuffer strBuffer = new StringBuffer("{");
-                            strBuffer.append("\"");
-                            strBuffer.append(name);
-                            strBuffer.append("\"");
-                            strBuffer.append(":");
-                            strBuffer.append("\"");
-                            strBuffer.append(value);
-                            strBuffer.append("\"");
-                            strBuffer.append("}");
-                            list.add(strBuffer.toString());
+                        if(!StringUtil.isEmpty(value)){
+                            boolean isMatch = Pattern.matches(regex, name);
+                            if(isMatch){
+                                StringBuffer strBuffer = new StringBuffer("{");
+                                strBuffer.append("\"");
+                                strBuffer.append(name);
+                                strBuffer.append("\"");
+                                strBuffer.append(":");
+                                strBuffer.append("\"");
+                                strBuffer.append(value);
+                                strBuffer.append("\"");
+                                strBuffer.append("}");
+                                list.add(strBuffer.toString());
 
-                            String className = item.getType().getName();
-                            String methodName = item.getName().substring(0, 1).toUpperCase() + item.getName().substring(1);
-                            setListMethod = obj.getClass().getMethod("set" + methodName, Class.forName(className));
+                                String className = item.getType().getName();
+                                String methodName = item.getName().substring(0, 1).toUpperCase() + item.getName().substring(1);
+                                setListMethod = obj.getClass().getMethod("set" + methodName, Class.forName(className));
+                            }
                         }
                     } else {
                         String name;
@@ -139,25 +141,26 @@ public class XmlUtil {
                         }
 
                         if (name.equals(element.getNodeName()) && element.getTextContent() != null) {
-                            Method method;
                             String value = element.getTextContent();
-                            String genericType = item.getGenericType().toString();
-                            String className = item.getType().getName();
-                            String methodName = item.getName().substring(0, 1).toUpperCase() + item.getName().substring(1);
-                            method = obj.getClass().getMethod("set" + methodName, Class.forName(className));
+                            if(!StringUtil.isEmpty(value)){
+                                Method method;
+                                String genericType = item.getGenericType().toString();
+                                String className = item.getType().getName();
+                                String methodName = item.getName().substring(0, 1).toUpperCase() + item.getName().substring(1);
+                                method = obj.getClass().getMethod("set" + methodName, Class.forName(className));
 
-                            if ("class java.lang.String".equals(genericType)) {
-                                method.invoke(obj, value);
+                                if ("class java.lang.String".equals(genericType)) {
+                                    method.invoke(obj, value);
+                                }
+
+                                if ("class java.lang.Integer".equals(genericType)) {
+                                    method.invoke(obj, Integer.parseInt(value));
+                                }
+
+                                if ("class java.lang.Long".equals(genericType)) {
+                                    method.invoke(obj, Long.parseLong(value));
+                                }
                             }
-
-                            if ("class java.lang.Integer".equals(genericType)) {
-                                method.invoke(obj, Integer.parseInt(value));
-                            }
-
-                            if ("class java.lang.Long".equals(genericType)) {
-                                method.invoke(obj, Long.parseLong(value));
-                            }
-
                         }
                     }
                 }

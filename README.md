@@ -39,7 +39,7 @@ github地址：https://github.com/YaoguaiDa/simplepay4j
     ```
         * 刷新maven
 * 简单使用
-    * jsapi/小程序支付：
+    * jsapi/jssdk/微信小程序支付：
     ```java
       WxAccountModel accountModel = new WxAccountModel("公众号appid/小程序appid","微信商户号", "商户秘钥");
       MethodProxy proxy = Wechat.orderMethod(accountModel);
@@ -48,8 +48,81 @@ github地址：https://github.com/YaoguaiDa/simplepay4j
 
       unifiedOrderModel.expand("发起支付的用户openid");
       WxUnifiedOrderResponse result = (WxUnifiedOrderResponse) proxy.unifiedOrder(unifiedOrderModel);
+      
+      /**
+      * 将参数取出，签名，然后可将@params转成json传给前端
+      */
+      Map<String,String> params = new HashMap<>();
+      params.put("appId", result.getAppid());
+      params.put("timeStamp", String.valueOf(System.currentTimeMillis()));
+      params.put("nonceStr", UUID.randomUUID().toString());
+      params.put("package", "prepay_id=" + result.getPrepayId());
+      params.put("signType", result.getSignType().getValue());
+
+      String sign = SignUtil.sign(params, result.getKey(), result.getSignType());
+      params.put("sign", sign);
+      System.out.println(params);
     ```
-    返回的result直接转成json返回给前端，前端拿来调用支付api即可
+    * native(扫码支付)支付：
+    ```java
+      WxAccountModel accountModel = new WxAccountModel("公众号appid/小程序appid","微信商户号", "商户秘钥");
+      MethodProxy proxy = Wechat.orderMethod(accountModel);
+      WxUnifiedOrderModel unifiedOrderModel = new WxUnifiedOrderModel("商品描述","商户订单号","商品价格，单位为分",
+          "客户端ip", "回调地址", TradeTypeEnum.NATIVE);
+      
+      unifiedOrderModel.expand("发起支付的用户openid");
+      WxUnifiedOrderResponse result = (WxUnifiedOrderResponse) proxy.unifiedOrder(unifiedOrderModel);
+    
+      /**
+       * 此时result中codeUrl一定存在
+       * 使用者可将codeUrl返回给前端，由前端生成二码，用户用微信扫描此二维码即可调起支付
+       */
+      System.out.println(result.getCodeUrl());
+    ```
+    
+    * app支付:
+    ```java
+      WxAccountModel accountModel = new WxAccountModel("公众号appid/小程序appid","微信商户号", "商户秘钥");
+      MethodProxy proxy = Wechat.orderMethod(accountModel);
+      WxUnifiedOrderModel unifiedOrderModel = new WxUnifiedOrderModel("商品描述","商户订单号","商品价格，单位为分",
+          "客户端ip", "回调地址", TradeTypeEnum.APP);
+        
+      unifiedOrderModel.expand("发起支付的用户openid");
+      WxUnifiedOrderResponse result = (WxUnifiedOrderResponse) proxy.unifiedOrder(unifiedOrderModel);
+      
+      /**
+       * 将参数取出，签名，然后可将@params转成json传给前端
+       */
+      Map<String,String> params = new HashMap<>();
+      params.put("appId", result.getAppid());
+      params.put("timeStamp", String.valueOf(System.currentTimeMillis()));
+      params.put("nonceStr", UUID.randomUUID().toString());
+      params.put("package", "prepay_id=" + result.getPrepayId());
+      params.put("signType", result.getSignType().getValue());
+  
+      String sign = SignUtil.sign(params, result.getKey(), result.getSignType());
+      params.put("sign", sign);
+      System.out.println(params);
+    ```
+    
+    * h5支付：
+    ```java
+      WxAccountModel accountModel = new WxAccountModel("公众号appid/小程序appid","微信商户号", "商户秘钥");
+      MethodProxy proxy = Wechat.orderMethod(accountModel);
+      WxUnifiedOrderModel unifiedOrderModel = new WxUnifiedOrderModel("商品描述","商户订单号","商品价格，单位为分",
+          "客户端ip", "回调地址", TradeTypeEnum.MWEB);
+          
+      unifiedOrderModel.expand("发起支付的用户openid");
+      WxUnifiedOrderResponse result = (WxUnifiedOrderResponse) proxy.unifiedOrder(unifiedOrderModel);
+      
+      /**
+       * 此时result中mwebUrl一定存在
+       * mweb_url为拉起微信支付收银台的中间页面，可通过访问该url来拉起微信客户端，完成支付,mweb_url的有效期为5分钟。
+       * 开发者可直接将mwebUrl传给前端
+       */
+      System.out.println(result.getMwebUrl());
+    ```
+
     * 处理支付结果通知回调：
     ```java
       NotifyManageProxy proxy = Wechat.notifyManage(inputStream, "商户秘钥");

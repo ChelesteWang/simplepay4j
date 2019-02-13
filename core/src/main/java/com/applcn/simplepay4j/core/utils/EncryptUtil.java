@@ -88,6 +88,7 @@ public class EncryptUtil {
 
 
     /**
+     * AES-256-ECB加密
      * @param content  要被加密的字符串
      * @param key  加/解密要用的长度为32的字节数组（256位）密钥
      * @return byte[]  加密后的字节数组
@@ -102,6 +103,7 @@ public class EncryptUtil {
     }
 
     /**
+     * AES-256-ECB解密
      * @param  cryptograph  要被解密的字节数组
      * @param  key    加/解密要用的长度为32的字节数组（256位）密钥
      * @return String  解密后的字符串

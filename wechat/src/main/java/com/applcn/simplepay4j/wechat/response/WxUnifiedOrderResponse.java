@@ -86,15 +86,24 @@ public class WxUnifiedOrderResponse implements UnifiedOrderResult {
 
     /**
      * 预支付交易会话标识
+     * 针对微信公众号、小程序支付
      */
     @XmlNode("prepay_id")
     private String prepayId;
 
     /**
      * 二维码链接
+     * 针对native支付
      */
     @XmlNode("code_url")
     private String codeUrl;
+
+    /**
+     * 支付跳转链接
+     * 针对H5支付
+     */
+    @XmlNode("mweb_url")
+    private String mwebUrl;
 
     /**
      * 商户秘钥
@@ -240,5 +249,13 @@ public class WxUnifiedOrderResponse implements UnifiedOrderResult {
 
     public void setSignType(SignTypeEnum signType) {
         this.signType = signType;
+    }
+
+    public String getMwebUrl() {
+        return mwebUrl;
+    }
+
+    public void setMwebUrl(String mwebUrl) {
+        this.mwebUrl = mwebUrl;
     }
 }

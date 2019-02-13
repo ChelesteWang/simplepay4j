@@ -6,7 +6,7 @@ import com.applcn.simplepay4j.core.proxy.NotifyManageProxy;
  * 订单模型
  * @author dayaoguai
  */
-public interface OrderModel {
+public interface PayOrderModel {
 
     NotifyManageProxy init();
 }

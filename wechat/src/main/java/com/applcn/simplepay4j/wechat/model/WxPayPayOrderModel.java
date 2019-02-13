@@ -1,15 +1,15 @@
 package com.applcn.simplepay4j.wechat.model;
 
 import com.applcn.simplepay4j.core.annotation.XmlNode;
-import com.applcn.simplepay4j.core.model.OrderModel;
+import com.applcn.simplepay4j.core.model.PayOrderModel;
 import com.applcn.simplepay4j.core.proxy.NotifyManageProxy;
-import com.applcn.simplepay4j.wechat.method.WxNotifyManage;
+import com.applcn.simplepay4j.wechat.method.WxPayNotifyManage;
 
 /**
  * 微信订单模型
  * @author dayaoguai
  */
-public class WxOrderModel implements OrderModel {
+public class WxPayPayOrderModel implements PayOrderModel {
 
     /**
      * 返回状态码
@@ -169,7 +169,7 @@ public class WxOrderModel implements OrderModel {
 
     @Override
     public NotifyManageProxy init() {
-        return new WxNotifyManage();
+        return new WxPayNotifyManage();
     }
 
     public String getReturnCode() {
