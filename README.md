@@ -125,6 +125,9 @@ github地址：https://github.com/YaoguaiDa/simplepay4j
 
     * 处理支付结果通知回调：
     ```java
+      /**
+       *inputStream: 即：java.io.InputStream，为前端出来的数据流
+       */
       NotifyManageProxy proxy = Wechat.notifyManage(inputStream, "商户秘钥");
       WxOrderModel model = (WxOrderModel) proxy.manage();
       if(model != null){
@@ -137,7 +140,6 @@ github地址：https://github.com/YaoguaiDa/simplepay4j
         return XmlUtil.mapToXml(error, true);
       }
     ```
-    inputStream: 即：java.io.InputStream，为前端出来的数据流
     * 订单查询：
         待完成
     * 关闭订单：

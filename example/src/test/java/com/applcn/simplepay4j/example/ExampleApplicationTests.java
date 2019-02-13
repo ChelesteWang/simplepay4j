@@ -28,32 +28,32 @@ public class ExampleApplicationTests {
 	/**
 	 * 小程序、公众号等appid
 	 */
-	private static final String appid = "wxb310d85d3269b8fc";
+	private static final String appid = "";
 
 	/**
 	 * 商户平台商户号
 	 */
-	private static final String mchId = "1484850852";
+	private static final String mchId = "";
 
 	/**
 	 * 商户平台秘钥
 	 */
-	private static final String key = "SQTEVXSNC54ET44FRFN5EPHLYPEYHGYM";
+	private static final String key = "";
 
 	/**
 	 * 付款用户的openid
 	 */
-	private static final String openid = "oc8mmwfe7n5lhe04fKKXNs3eEwmU";
+	private static final String openid = "";
 
 	/**
 	 * 付款设备的ip地址
 	 */
-	private static final String ip = "116.208.50.7";
+	private static final String ip = "";
 
 	/**
 	 * 支付回调地址
 	 */
-	private static final String notifyUrl = "http://www.baidu.com";
+	private static final String notifyUrl = "";
 
 	/**
 	 * jsapi/jssdk/微信小程序支付demo
