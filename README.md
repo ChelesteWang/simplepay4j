@@ -50,18 +50,9 @@ github地址：https://github.com/YaoguaiDa/simplepay4j
       WxUnifiedOrderResponse result = (WxUnifiedOrderResponse) proxy.unifiedOrder(unifiedOrderModel);
       
       /**
-      * 将参数取出，签名，然后可将@params转成json传给前端
-      */
-      Map<String,String> params = new HashMap<>();
-      params.put("appId", result.getAppid());
-      params.put("timeStamp", String.valueOf(System.currentTimeMillis()));
-      params.put("nonceStr", UUID.randomUUID().toString());
-      params.put("package", "prepay_id=" + result.getPrepayId());
-      params.put("signType", result.getSignType().getValue());
-
-      String sign = SignUtil.sign(params, result.getKey(), result.getSignType());
-      params.put("sign", sign);
-      System.out.println(params);
+       * 直接调用getPayResult处理好的数据转成json给前端
+       */
+      System.out.println(result.getPayResult());
     ```
     * native(扫码支付)支付：
     ```java
@@ -91,18 +82,9 @@ github地址：https://github.com/YaoguaiDa/simplepay4j
       WxUnifiedOrderResponse result = (WxUnifiedOrderResponse) proxy.unifiedOrder(unifiedOrderModel);
       
       /**
-       * 将参数取出，签名，然后可将@params转成json传给前端
+       * 直接调用getPayResult处理好的数据转成json给前端
        */
-      Map<String,String> params = new HashMap<>();
-      params.put("appId", result.getAppid());
-      params.put("timeStamp", String.valueOf(System.currentTimeMillis()));
-      params.put("nonceStr", UUID.randomUUID().toString());
-      params.put("package", "prepay_id=" + result.getPrepayId());
-      params.put("signType", result.getSignType().getValue());
-  
-      String sign = SignUtil.sign(params, result.getKey(), result.getSignType());
-      params.put("sign", sign);
-      System.out.println(params);
+      System.out.println(result.getPayResult());
     ```
     
     * h5支付：
