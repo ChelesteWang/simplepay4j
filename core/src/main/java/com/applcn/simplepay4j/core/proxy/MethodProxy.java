@@ -50,9 +50,30 @@ public interface MethodProxy {
     RefundQueryResult refundquery(RefundQueryModel refundQueryModel) throws Exception;
 
     /**
-     * 查询
+     * 退款回调
      * @param refundNotifyModel
      * @return
      */
     RefundNotifyResult refundNotify(RefundNotifyModel refundNotifyModel) throws Exception;
+
+    /**
+     * 下载对账单
+     * @param downloadbillModel
+     * @return
+     */
+    DownloadbillResult downloadbill(DownloadbillModel downloadbillModel) throws Exception;
+
+    /**
+     * 下载资金账单
+     * @param downloadfundflowModel
+     * @return
+     */
+    DownloadfundflowResult downloadfundflow(DownloadfundflowModel downloadfundflowModel) throws Exception;
+
+    /**
+     * 提交付款码支付
+     * @param micropayModel
+     * @return
+     */
+    MicropayResult micropay(MicropayModel micropayModel) throws Exception;
 }

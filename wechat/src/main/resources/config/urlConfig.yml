@@ -5,3 +5,4 @@ refund: https://api.mch.weixin.qq.com/secapi/pay/refund
 refundQuery: https://api.mch.weixin.qq.com/pay/refundquery
 downloadBill: https://api.mch.weixin.qq.com/pay/downloadbill
 downloadFundFlow: https://api.mch.weixin.qq.com/pay/downloadfundflow
+micropay: https://api.mch.weixin.qq.com/pay/micropay

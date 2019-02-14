@@ -185,19 +185,17 @@ public class XmlUtil {
         StringBuffer strbuff = new StringBuffer(PREFIX_XML);
         if (null != map) {
             for (Map.Entry<String, String> entry : map.entrySet()) {
-                strbuff.append("<").append(entry.getKey()).append(">");
-                if (isAddCDATA) {
-                    strbuff.append(PREFIX_CDATA);
-                    if (null != entry.getValue()) {
+                if (!StringUtil.isEmpty(entry.getValue())) {
+                    strbuff.append("<").append(entry.getKey()).append(">");
+                    if (isAddCDATA) {
+                        strbuff.append(PREFIX_CDATA);
+                        strbuff.append(entry.getValue());
+                        strbuff.append(SUFFIX_CDATA);
+                    } else {
                         strbuff.append(entry.getValue());
                     }
-                    strbuff.append(SUFFIX_CDATA);
-                } else {
-                    if (null != entry.getValue()) {
-                        strbuff.append(entry.getValue());
-                    }
+                    strbuff.append("</").append(entry.getKey()).append(">");
                 }
-                strbuff.append("</").append(entry.getKey()).append(">");
             }
         }
         return strbuff.append(SUFFIX_XML).toString();

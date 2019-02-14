@@ -15,12 +15,12 @@ import java.net.URL;
 public class HttpUtil {
 
     /**
-     * post发送xml数据
+     * post发送xml数据，返回InputStream
      * @param requestUrl
      * @param xml
      * @return
      */
-    public static String post(String requestUrl, String xml){
+    public static InputStream postInputStream(String requestUrl, String xml){
         try {
             // 创建url资源
             URL url = new URL(requestUrl);
@@ -59,19 +59,31 @@ public class HttpUtil {
             if (responseCode == HttpStatusCodeConsts.OK) {
                 // 请求返回的数据
                 InputStream in = conn.getInputStream();
-                try {
-                    byte[] responseData = new byte[in.available()];
-                    in.read(responseData);
-                    // 转成字符串
-                    System.out.println(new String(responseData));
-                    return new String(responseData);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                return in;
             } else {
                 throw new WxRequestException(responseCode);
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param requestUrl
+     * @param xml
+     * @return
+     */
+    public static String post(String requestUrl, String xml){
+        InputStream in = postInputStream(requestUrl, xml);
+        try {
+            byte[] responseData = new byte[in.available()];
+            in.read(responseData);
+            // 转成字符串
+            System.out.println(new String(responseData));
+            return new String(responseData);
         } catch (Exception e) {
             e.printStackTrace();
         }

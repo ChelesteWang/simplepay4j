@@ -1,6 +1,8 @@
 package com.applcn.simplepay4j.wechat.method;
 
 import com.applcn.simplepay4j.core.model.*;
+import com.applcn.simplepay4j.core.result.DownloadfundflowResult;
+import com.applcn.simplepay4j.core.result.MicropayResult;
 import com.applcn.simplepay4j.core.result.RefundNotifyResult;
 import com.applcn.simplepay4j.core.utils.EncryptUtil;
 import com.applcn.simplepay4j.wechat.config.UrlConfig;
@@ -17,6 +19,7 @@ import com.applcn.simplepay4j.core.proxy.MethodProxy;
 import com.applcn.simplepay4j.core.utils.StringUtil;
 import com.applcn.simplepay4j.core.utils.XmlUtil;
 
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +53,7 @@ public class WxMethodRequest implements MethodProxy {
         params.put(WxUnifiedOrderRquestConsts.NONCE_STR, UUID.randomUUID().toString().replace("-",""));
         params.put(WxUnifiedOrderRquestConsts.OUT_TRADE_NO, unifiedOrder.getOutTradeNo());
         params.put(WxUnifiedOrderRquestConsts.BODY, unifiedOrder.getBody());
-        params.put(WxUnifiedOrderRquestConsts.TOTAL_FEE, unifiedOrder.getTotalFee()+"");
+        params.put(WxUnifiedOrderRquestConsts.TOTAL_FEE, unifiedOrder.getTotalFee() + "");
         params.put(WxUnifiedOrderRquestConsts.SPBILL_CREATE_IP, unifiedOrder.getSpbillCreateIp());
         params.put(WxUnifiedOrderRquestConsts.NOTIFY_URL, unifiedOrder.getNotifyUrl());
         params.put(WxUnifiedOrderRquestConsts.DEVICE_INFO,unifiedOrder.getDeviceInfo());
@@ -65,6 +68,7 @@ public class WxMethodRequest implements MethodProxy {
         params.put(WxUnifiedOrderRquestConsts.LIMIT_PAY,unifiedOrder.getLimitPay());
         params.put(WxUnifiedOrderRquestConsts.RECEIPT,unifiedOrder.getReceipt());
         params.put(WxUnifiedOrderRquestConsts.SCENE_INFO,unifiedOrder.getSceneInfo());
+        params.put(WxUnifiedOrderRquestConsts.SIGN_TYPE, signType != null ? signType.getValue() : null);
 
         if(tradeType != null){
             params.put(WxUnifiedOrderRquestConsts.TRADE_TYPE, tradeType.getValue());
@@ -111,6 +115,7 @@ public class WxMethodRequest implements MethodProxy {
         params.put(WxOrderQueryRequestConsts.APP_ID, accountModel.getAppid());
         params.put(WxOrderQueryRequestConsts.MCH_ID, accountModel.getMchId());
         params.put(WxOrderQueryRequestConsts.NONCE_STR, UUID.randomUUID().toString().replace("-",""));
+        params.put(WxCloseOrderRequestConsts.SIGN_TYPE, signType != null ? signType.getValue() : null);
         if(StringUtil.isEmpty(orderQuery.getTransactionId()) && StringUtil.isEmpty(orderQuery.getOutTradeNo())){
             throw new WxParamException("微信订单号或者商户订单号不能为空");
         }
@@ -152,6 +157,7 @@ public class WxMethodRequest implements MethodProxy {
         params.put(WxCloseOrderRequestConsts.APP_ID, accountModel.getAppid());
         params.put(WxCloseOrderRequestConsts.MCH_ID, accountModel.getMchId());
         params.put(WxCloseOrderRequestConsts.OUT_TRADE_NO, closeOrder.getOutTradeNo());
+        params.put(WxCloseOrderRequestConsts.SIGN_TYPE, signType != null ? signType.getValue() : null);
         params.put(WxCloseOrderRequestConsts.NONCE_STR, UUID.randomUUID().toString().replace("-", ""));
 
         params.put(WxOrderQueryRequestConsts.SIGN, SignUtil.sign(params, accountModel.getKey(), signType));
@@ -184,7 +190,7 @@ public class WxMethodRequest implements MethodProxy {
         params.put(WxRefundRequestConsts.MCH_ID, accountModel.getMchId());
         params.put(WxRefundRequestConsts.NONCE_STR, UUID.randomUUID().toString().replace("-", ""));
         params.put(WxRefundRequestConsts.OUT_TRADE_NO, wxRefundModel.getOutTradeNo());
-        params.put(WxRefundRequestConsts.SIGN_TYPE, signType.getValue());
+        params.put(WxRefundRequestConsts.SIGN_TYPE, signType != null ? signType.getValue() : null);
         params.put(WxRefundRequestConsts.TRANSACTION_ID, wxRefundModel.getTransactionId());
         params.put(WxRefundRequestConsts.OUT_TRADE_NO, wxRefundModel.getOutTradeNo());
         params.put(WxRefundRequestConsts.OUT_REFUND_NO, wxRefundModel.getOutRefundNo());
@@ -223,7 +229,7 @@ public class WxMethodRequest implements MethodProxy {
         params.put(WxRefundQueryRequestConsts.APP_ID, accountModel.getAppid());
         params.put(WxRefundQueryRequestConsts.MCH_ID, accountModel.getMchId());
         params.put(WxRefundQueryRequestConsts.NONCE_STR, UUID.randomUUID().toString().replace("-", ""));
-        params.put(WxRefundQueryRequestConsts.SIGN_TYPE, signType.getValue());
+        params.put(WxRefundQueryRequestConsts.SIGN_TYPE, signType != null ? signType.getValue() : null);
         params.put(WxRefundQueryRequestConsts.TRANSACTION_ID, wxRefundQueryModel.getTransactionId());
         params.put(WxRefundQueryRequestConsts.OUT_TRADE_NO, wxRefundQueryModel.getOutTradeNo());
         params.put(WxRefundQueryRequestConsts.OUT_REFUND_NO, wxRefundQueryModel.getOutRefundNo());
@@ -270,6 +276,124 @@ public class WxMethodRequest implements MethodProxy {
 
         }else{
             throw new WxParamException(model.getReturnMsg());
+        }
+    }
+
+    @Override
+    public WxDownloadbillResponse downloadbill(DownloadbillModel downloadbillModel) throws Exception {
+        WxDownloadbillModel wxDownloadbillModel = (WxDownloadbillModel) downloadbillModel;
+
+        Field[] fields = wxDownloadbillModel.getClass().getDeclaredFields();
+        Map<String, String> params = new HashMap<>(fields.length);
+        SignTypeEnum signType = wxDownloadbillModel.getSignType();
+        params.put(WxDownloadbillRequestConsts.APP_ID, accountModel.getAppid());
+        params.put(WxDownloadbillRequestConsts.MCH_ID, accountModel.getMchId());
+        params.put(WxDownloadbillRequestConsts.NONCE_STR, UUID.randomUUID().toString().replace("-", ""));
+        params.put(WxDownloadbillRequestConsts.SIGN_TYPE, signType != null ? signType.getValue() : null);
+        params.put(WxDownloadbillRequestConsts.BILL_DATE, wxDownloadbillModel.getBillDate());
+        params.put(WxDownloadbillRequestConsts.BILL_TYPE, wxDownloadbillModel.getBillType());
+        params.put(WxDownloadbillRequestConsts.TAR_TYPE, wxDownloadbillModel.isTarTypeIsZip() ? "GZIP" : "");
+
+        params.put(WxRefundQueryRequestConsts.SIGN, SignUtil.sign(params, accountModel.getKey(), signType));
+
+        String xml = XmlUtil.mapToXml(params, true);
+
+        WxDownloadbillResponse response = new WxDownloadbillResponse();
+        if(wxDownloadbillModel.isTarTypeIsZip()){
+            InputStream in = HttpUtil.postInputStream(UrlConfig.getInstance().getDownloadBill(), xml);
+            response.setResultInputStream(in);
+        }else{
+            String resultString = HttpUtil.post(UrlConfig.getInstance().getDownloadBill(), xml);
+            response.setResultString(resultString);
+        }
+
+        return response;
+    }
+
+    @Override
+    public WxDownloadfundflowResponse downloadfundflow(DownloadfundflowModel downloadfundflowModel) throws Exception {
+        WxDownloadfundflowModel wxDownloadfundflowModel = (WxDownloadfundflowModel) downloadfundflowModel;
+
+        Field[] fields = wxDownloadfundflowModel.getClass().getDeclaredFields();
+        Map<String, String> params = new HashMap<>(fields.length);
+        params.put(WxDownloadfundflowRequestConsts.APP_ID, accountModel.getAppid());
+        params.put(WxDownloadfundflowRequestConsts.MCH_ID, accountModel.getMchId());
+        params.put(WxDownloadfundflowRequestConsts.NONCE_STR, UUID.randomUUID().toString().replace("-", ""));
+        params.put(WxDownloadfundflowRequestConsts.BILL_DATE, wxDownloadfundflowModel.getBillDate());
+        params.put(WxDownloadfundflowRequestConsts.ACCOUNT_TYPE, wxDownloadfundflowModel.getAccountType());
+        params.put(WxDownloadfundflowRequestConsts.BILL_DATE, wxDownloadfundflowModel.getBillDate());
+        params.put(WxDownloadbillRequestConsts.TAR_TYPE, wxDownloadfundflowModel.isTarTypeIsZip() ? "GZIP" : "");
+
+        params.put(WxDownloadbillRequestConsts.SIGN, SignUtil.sign(params, accountModel.getKey(), SignTypeEnum.HMAC_SHA256));
+
+        String xml = XmlUtil.mapToXml(params, true);
+
+        InputStream in = HttpUtil.postInputStream(UrlConfig.getInstance().getDownloadFundFlow(), xml);
+
+        String resultString = null;
+        try {
+            byte[] responseData = new byte[in.available()];
+            in.read(responseData);
+            // 转成字符串
+            resultString = new String(responseData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        WxDownloadfundflowResponse response = XmlUtil.xmlToPojo(resultString, WxDownloadfundflowResponse.class);
+        if(response == null){
+            if(wxDownloadfundflowModel.isTarTypeIsZip()){
+                response.setResultInputStream(in);
+            }else{
+                response.setResultString(resultString);
+            }
+        }
+
+        return response;
+    }
+
+    @Override
+    public WxMicropayResponse micropay(MicropayModel micropayModel) throws Exception {
+        WxMicropayModel wxMicropayModel = (WxMicropayModel) micropayModel;
+
+        Field[] fields = wxMicropayModel.getClass().getDeclaredFields();
+        Map<String, String> params = new HashMap<>(fields.length);
+        SignTypeEnum signType = wxMicropayModel.getSignType();
+        params.put(WxMicropayRequestConsts.APP_ID, accountModel.getAppid());
+        params.put(WxMicropayRequestConsts.MCH_ID, accountModel.getMchId());
+        params.put(WxMicropayRequestConsts.NONCE_STR, UUID.randomUUID().toString().replace("-", ""));
+        params.put(WxMicropayRequestConsts.DEVICE_INFO, wxMicropayModel.getDeviceInfo());
+        params.put(WxMicropayRequestConsts.SIGN_TYPE, signType != null ? signType.getValue() : null);
+        params.put(WxMicropayRequestConsts.BODY, wxMicropayModel.getBody());
+        params.put(WxMicropayRequestConsts.DETAIL, wxMicropayModel.getDetail());
+        params.put(WxMicropayRequestConsts.ATTACH, wxMicropayModel.getAttach());
+        params.put(WxMicropayRequestConsts.OUT_TRADE_NO, wxMicropayModel.getOutTradeNo());
+        params.put(WxMicropayRequestConsts.TOTAL_FEE, wxMicropayModel.getTotalFee() + "");
+        params.put(WxMicropayRequestConsts.FEE_TYPE, wxMicropayModel.getFeeType());
+        params.put(WxMicropayRequestConsts.SPBILL_CREATE_IP, wxMicropayModel.getSpbillCreateIp());
+        params.put(WxMicropayRequestConsts.GOODS_TAG, wxMicropayModel.getGoodsTag());
+        params.put(WxMicropayRequestConsts.LIMIT_PAY, wxMicropayModel.getLimitPay());
+        params.put(WxMicropayRequestConsts.TIME_STAR, wxMicropayModel.getTimeStart());
+        params.put(WxMicropayRequestConsts.TIME_EXPIRE, wxMicropayModel.getTimeExpire());
+        params.put(WxMicropayRequestConsts.RECEIPT, wxMicropayModel.getReceipt());
+        params.put(WxMicropayRequestConsts.AUTH_CODE, wxMicropayModel.getAuthCode());
+        params.put(WxMicropayRequestConsts.SCENE_INFO, wxMicropayModel.getSceneInfo());
+
+        params.put(WxMicropayRequestConsts.SIGN, SignUtil.sign(params, accountModel.getKey(), signType));
+
+        String xml = XmlUtil.mapToXml(params, true);
+
+        String resultXml = HttpUtil.post(UrlConfig.getInstance().getCloseOrder(), xml);
+        WxMicropayResponse response = XmlUtil.xmlToPojo(resultXml, WxMicropayResponse.class);
+
+        if(WxReturnCodeEnum.SUCCESS.getValue().equals(response.getReturnCode())){
+            if(WxReturnCodeEnum.SUCCESS.getValue().equals(response.getResultCode())){
+                return response;
+            }else{
+                throw new WxParamException(response.getResultCode());
+            }
+        }else{
+            throw new WxParamException(response.getReturnMsg());
         }
     }
 }

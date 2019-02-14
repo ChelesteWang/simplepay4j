@@ -1,11 +1,15 @@
 package com.applcn.simplepay4j.example;
 
+import com.applcn.simplepay4j.core.model.DownloadbillModel;
 import com.applcn.simplepay4j.core.proxy.MethodProxy;
+import com.applcn.simplepay4j.core.result.DownloadbillResult;
 import com.applcn.simplepay4j.wechat.Wechat;
 import com.applcn.simplepay4j.wechat.enums.SignTypeEnum;
 import com.applcn.simplepay4j.wechat.enums.TradeTypeEnum;
 import com.applcn.simplepay4j.wechat.model.WxAccountModel;
+import com.applcn.simplepay4j.wechat.model.WxDownloadbillModel;
 import com.applcn.simplepay4j.wechat.model.WxUnifiedOrderModel;
+import com.applcn.simplepay4j.wechat.response.WxDownloadbillResponse;
 import com.applcn.simplepay4j.wechat.response.WxUnifiedOrderResponse;
 import com.applcn.simplepay4j.wechat.util.SignUtil;
 import org.junit.Test;
@@ -212,6 +216,47 @@ public class ExampleApplicationTests {
 		 * 开发者可直接将mwebUrl传给前端
 		 */
 		System.out.println(result.getMwebUrl());
+	}
+
+	/**
+	 * 下载对账单
+	 */
+	@Test
+	public void downloadbill() throws Exception{
+		/**
+		 * appid：微信分配的公众账号ID（企业号corpid即为此appId）
+		 * mchId：商户号
+		 * key：商户平台秘钥
+		 */
+		WxAccountModel accountModel = new WxAccountModel(appid,mchId, key);
+
+		MethodProxy proxy = Wechat.orderMethod(accountModel);
+
+		WxDownloadbillModel downloadbillModel = new WxDownloadbillModel("20181104", "ALL");
+
+		/**
+		 * 设置是否下载.gzip的压缩包账单
+		 * 若为true则返回.gzip的压缩包账单
+		 * 若为false则返回字符串形式
+		 * 不填默认false
+		 */
+
+		boolean tarTypeIsZip = true;
+		downloadbillModel.expand(true);
+
+
+		WxDownloadbillResponse result = (WxDownloadbillResponse) proxy.downloadbill(downloadbillModel);
+		if (tarTypeIsZip){
+			/**
+			 * 当下载.gzip的压缩包账单时用InputStream获取
+			 */
+			System.out.println(result.getResultInputStream());
+		}else{
+			/**
+			 * 当返回字符串形式时，取resultString
+			 */
+			System.out.println(result.getResultString());
+		}
 	}
 
 }
