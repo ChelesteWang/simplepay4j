@@ -47,6 +47,11 @@ public class UrlConfig {
      */
     private String downloadFundFlow;
 
+    /**
+     * 提交付款码支付
+     */
+    private String micropay;
+
     private static volatile UrlConfig instance;
 
     private UrlConfig() {
@@ -120,5 +125,13 @@ public class UrlConfig {
 
     public void setDownloadFundFlow(String downloadFundFlow) {
         this.downloadFundFlow = downloadFundFlow;
+    }
+
+    public String getMicropay() {
+        return micropay;
+    }
+
+    public void setMicropay(String micropay) {
+        this.micropay = micropay;
     }
 }

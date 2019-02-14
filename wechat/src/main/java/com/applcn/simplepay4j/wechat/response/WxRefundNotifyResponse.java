@@ -9,6 +9,8 @@ import com.applcn.simplepay4j.core.result.RefundNotifyResult;
  */
 public class WxRefundNotifyResponse implements RefundNotifyResult {
 
+    private static final long serialVersionUID = -3662393866761636888L;
+
     /**
      * 微信订单号
      */
