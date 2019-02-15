@@ -1,26 +1,21 @@
 package com.applcn.simplepay4j.example;
 
-import com.applcn.simplepay4j.core.model.DownloadbillModel;
+import com.applcn.simplepay4j.core.model.PayOrderModel;
 import com.applcn.simplepay4j.core.proxy.MethodProxy;
-import com.applcn.simplepay4j.core.result.DownloadbillResult;
+import com.applcn.simplepay4j.core.proxy.NotifyManageProxy;
 import com.applcn.simplepay4j.wechat.Wechat;
-import com.applcn.simplepay4j.wechat.enums.SignTypeEnum;
 import com.applcn.simplepay4j.wechat.enums.TradeTypeEnum;
-import com.applcn.simplepay4j.wechat.model.WxAccountModel;
-import com.applcn.simplepay4j.wechat.model.WxDownloadbillModel;
-import com.applcn.simplepay4j.wechat.model.WxUnifiedOrderModel;
-import com.applcn.simplepay4j.wechat.response.WxDownloadbillResponse;
-import com.applcn.simplepay4j.wechat.response.WxUnifiedOrderResponse;
-import com.applcn.simplepay4j.wechat.util.SignUtil;
+import com.applcn.simplepay4j.wechat.model.*;
+import com.applcn.simplepay4j.wechat.response.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * 微信支付测试
@@ -216,6 +211,109 @@ public class ExampleApplicationTests {
 		 * 开发者可直接将mwebUrl传给前端
 		 */
 		System.out.println(result.getMwebUrl());
+	}
+
+	/**
+	 * 付款码支付
+	 */
+	@Test
+	public void microPay() throws Exception {
+		/**
+		 * appid：微信分配的公众账号ID（企业号corpid即为此appId）
+		 * mchId：商户号
+		 * key：商户平台秘钥
+		 */
+		WxAccountModel accountModel = new WxAccountModel(appid,mchId, key);
+
+		MethodProxy proxy = Wechat.orderMethod(accountModel);
+
+		/**
+		 * 付款码支付需要使用WxMicropayModel
+		 *
+		 */
+		WxMicropayModel model = new WxMicropayModel("测试商品","wxtest11111",10,
+				ip, "用户付款码");
+
+		WxMicropayResponse result = (WxMicropayResponse) proxy.micropay(model);
+
+		/**
+		 * 若不抛异常返回结果内就有内容，开发者可以根据result的内容处理自己的逻辑
+		 */
+		System.out.println(result);
+
+	}
+
+	/**
+	 * 支付回调管理
+	 */
+	@Test
+	public void payNotify() throws Exception {
+		/**
+		 * in为微信传来的数据流
+		 */
+		InputStream in = new FileInputStream("");
+		NotifyManageProxy proxy = Wechat.payNotifyManage(in, key);
+		PayOrderModel model = proxy.manage();
+		if(model != null){
+			// TODO 处理用户自己的业务逻辑,如对比订单号，对比金额
+		}else{
+			// TODO 此处为签名错误返回信息构造可自行按照微信官方文档来写
+			Map<String,String> error = new HashMap<>(2);
+			error.put("return_code", "FAIL");
+			error.put("return_msg", "签名错误");
+		}
+	}
+
+	/**
+	 * 退款回调管理
+	 */
+	@Test
+	public void refundNotify() throws Exception {
+		/**
+		 * appid：微信分配的公众账号ID（企业号corpid即为此appId）
+		 * mchId：商户号
+		 * key：商户平台秘钥
+		 */
+		WxAccountModel accountModel = new WxAccountModel(appid,mchId, key);
+
+		MethodProxy proxy = Wechat.orderMethod(accountModel);
+
+		WxRefundNotifyModel wxRefundNotifyModel = new WxRefundNotifyModel();
+
+		WxRefundNotifyResponse result = (WxRefundNotifyResponse) proxy.refundNotify(wxRefundNotifyModel);
+
+		if(result != null){
+			// TODO 处理用户自己的业务逻辑,如对比订单号，对比金额
+		}else{
+			// TODO 此处为签名错误返回信息构造可自行按照微信官方文档来写
+			Map<String,String> error = new HashMap<>(2);
+			error.put("return_code", "FAIL");
+			error.put("return_msg", "签名错误");
+		}
+	}
+
+	@Test
+	public void orderquery() throws Exception {
+		/**
+		 * appid：小程序、公众号等appid
+		 * mchId：商户平台商户号
+		 * key：商户平台秘钥
+		 */
+		WxAccountModel accountModel = new WxAccountModel(appid,mchId, key);
+
+		MethodProxy proxy = Wechat.orderMethod(accountModel);
+
+		/**
+		 * 默认使用微信订单号
+		 * 若想使用商户订单号需要调用setOutTradeNo方法,此时微信订单号不传，否则会优先使用微信订单号
+		 */
+		WxOrderQueryModel wxOrderQueryModel = new WxOrderQueryModel("微信订单号");
+
+		/**
+		 * 开发者可根据返回结果编写自己的逻辑
+		 */
+		WxOrderQueryResponse result = (WxOrderQueryResponse) proxy.orderQuery(wxOrderQueryModel);
+
 	}
 
 	/**

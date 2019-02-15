@@ -104,6 +104,32 @@ github地址：https://github.com/YaoguaiDa/simplepay4j
        */
       System.out.println(result.getMwebUrl());
     ```
+    
+    * 提交付款码支付：
+    ```java
+      /**
+       * appid：微信分配的公众账号ID（企业号corpid即为此appId）
+       * mchId：商户号
+       * key：商户平台秘钥
+       */
+      WxAccountModel accountModel = new WxAccountModel("公众号appid/小程序appid","微信商户号", "商户秘钥");
+  
+      MethodProxy proxy = Wechat.orderMethod(accountModel);
+  
+      /**
+       * 付款码支付需要使用WxMicropayModel
+       *
+       */
+      WxMicropayModel model = new WxMicropayModel("商品描述","商户订单号","商品价格，单位为分",
+              "客户端ip", "用户付款码");
+  
+      WxMicropayResponse result = (WxMicropayResponse) proxy.micropay(model);
+  
+      /**
+       * 若不抛异常返回结果内就有内容，开发者可以根据result的内容处理自己的逻辑
+       */
+      System.out.println(result);
+    ```
 
     * 处理支付结果通知回调：
     ```java
