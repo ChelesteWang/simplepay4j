@@ -26,6 +26,18 @@ public class WxDownloadfundflowModel implements DownloadfundflowModel {
      */
     private boolean tarTypeIsZip;
 
+    public WxDownloadfundflowModel() {
+    }
+
+    public WxDownloadfundflowModel(String billDate, String accountType) {
+        this.billDate = billDate;
+        this.accountType = accountType;
+    }
+
+    public void expand(boolean tarTypeIsZip){
+        this.tarTypeIsZip = tarTypeIsZip;
+    }
+
     public String getBillDate() {
         return billDate;
     }

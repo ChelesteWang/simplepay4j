@@ -24,8 +24,12 @@ public class WxCloseOrderModel implements CloseOrderModel {
     public WxCloseOrderModel() {
     }
 
-    public WxCloseOrderModel(String outTradeNo, SignTypeEnum signType) {
+    public WxCloseOrderModel(String outTradeNo) {
         this.outTradeNo = outTradeNo;
+
+    }
+
+    public void expand(SignTypeEnum signType){
         this.signType = signType;
     }
 

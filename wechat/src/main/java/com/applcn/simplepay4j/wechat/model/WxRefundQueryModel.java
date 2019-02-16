@@ -50,6 +50,13 @@ public class WxRefundQueryModel implements RefundQueryModel {
      */
     private String offset;
 
+    public WxRefundQueryModel() {
+    }
+
+    public WxRefundQueryModel(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
     public SignTypeEnum getSignType() {
         return signType;
     }
