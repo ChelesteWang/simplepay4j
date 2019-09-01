@@ -1,8 +1,8 @@
 ### 项目简介
 simplepay4j是一个集成支付工具的java拓展包，目前只集成了微信支付基本功能
 
-oschina地址：https://gitee.com/yaoguaiDa/simplepay4j  
-github地址：https://github.com/YaoguaiDa/simplepay4j
+oschina地址：https://github.com/YaoguaiDa/simplepay4j.git
+github地址：https://github.com/YaoguaiDa/simplepay4j.git
 
 * 为什么要重复造轮子？  
 ——年假在家闲呐！
@@ -15,7 +15,7 @@ github地址：https://github.com/YaoguaiDa/simplepay4j
 
 ### 使用方法
 * 引入项目
-    * 使用最新版：
+    * 使用最新版：不知道为什么，maven中央仓库失效了，该方法失效，后续会修好
         * 下载项目到本地
         * 将项目导入到ide
         * 在根目录运行命令: mvn clean install
@@ -157,4 +157,3 @@ github地址：https://github.com/YaoguaiDa/simplepay4j
     
 ### 其它
 * 项目demo在example/test/java/下，使用的是springboottest，亲测
-* 项目才开始还没写完，还需要优化，也还没经过详细测试，仅作为技术交流用，反正别拿去生产环境用！别拿去生产环境用！别拿去生产环境用！    
