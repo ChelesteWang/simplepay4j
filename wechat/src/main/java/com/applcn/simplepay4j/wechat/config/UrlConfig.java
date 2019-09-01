@@ -5,6 +5,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  * 请求地址配置
@@ -58,13 +59,12 @@ public class UrlConfig {
     }
 
     public static UrlConfig getInstance() throws FileNotFoundException {
-        String path = UrlConfig.class.getClassLoader().getResource("config/urlConfig.yml").getPath();
+        InputStream inputStream = UrlConfig.class.getClassLoader().getResourceAsStream("config/urlConfig.yml");
         if (instance == null) {
             synchronized (UrlConfig.class) {
                 if (instance == null) {
                     Yaml yaml = new Yaml();
-                    instance = yaml.loadAs(new FileInputStream(
-                                    new File(path)),
+                    instance = yaml.loadAs(inputStream,
                             UrlConfig.class);
                 }
             }

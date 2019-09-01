@@ -72,6 +72,12 @@ public class WxPayPayOrderModel implements PayOrderModel {
     private String sign;
 
     /**
+     * 签名类型
+     */
+    @XmlNode("sign_type")
+    private String signType;
+
+    /**
      * 用户标识
      */
     @XmlNode("openid")
@@ -250,6 +256,14 @@ public class WxPayPayOrderModel implements PayOrderModel {
 
     public void setSign(String sign) {
         this.sign = sign;
+    }
+
+    public String getSignType() {
+        return signType;
+    }
+
+    public void setSignType(String signType) {
+        this.signType = signType;
     }
 
     public String getOpenid() {

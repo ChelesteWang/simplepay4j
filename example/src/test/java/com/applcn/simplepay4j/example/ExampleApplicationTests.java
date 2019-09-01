@@ -29,17 +29,17 @@ public class ExampleApplicationTests {
 	/**
 	 * 小程序、公众号等appid
 	 */
-	private static final String appid = "";
+	private static final String appid = "wxfbf561fd39c188b8";
 
 	/**
 	 * 商户平台商户号
 	 */
-	private static final String mchId = "";
+	private static final String mchId = "1527460041";
 
 	/**
 	 * 商户平台秘钥
 	 */
-	private static final String key = "";
+	private static final String key = "i3si6hmITG0a876e8bBoJtDavGP9yAtt";
 
 	/**
 	 * 付款用户的openid
@@ -49,12 +49,12 @@ public class ExampleApplicationTests {
 	/**
 	 * 付款设备的ip地址
 	 */
-	private static final String ip = "";
+	private static final String ip = "192.168.1.1";
 
 	/**
 	 * 支付回调地址
 	 */
-	private static final String notifyUrl = "";
+	private static final String notifyUrl = "http://api.lwshuiye.xyz/order/wxPayNotify";
 
 	/**
 	 * jsapi/jssdk/微信小程序支付demo
@@ -124,7 +124,7 @@ public class ExampleApplicationTests {
 		 * notifyUrl：回调地址
 		 * tradeType：为枚举类型，当支付方式为native(扫码支付)时固定传TradeTypeEnum.NATIVE
 		 */
-		WxUnifiedOrderModel model = new WxUnifiedOrderModel("测试商品","wxtest11114",10,
+		WxUnifiedOrderModel model = new WxUnifiedOrderModel("测试商品","wxtest111103",10,
 				ip,notifyUrl, TradeTypeEnum.NATIVE);
 
 		/**

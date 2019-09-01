@@ -121,6 +121,7 @@
     <module>core</module>
     <module>wechat</module>
     <module>example</module>
+      <module>alipay</module>
   </modules>
 
   <dependencies>

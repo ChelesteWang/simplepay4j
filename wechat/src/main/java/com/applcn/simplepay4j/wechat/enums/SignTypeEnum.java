@@ -6,7 +6,14 @@ package com.applcn.simplepay4j.wechat.enums;
  */
 public enum SignTypeEnum {
 
+    /**
+     * mdg加密
+     */
     MD5("MD5"),
+
+    /**
+     * HMAC_SHA256加密
+     */
     HMAC_SHA256("HMAC-SHA256");
 
     private String value;

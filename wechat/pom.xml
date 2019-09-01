@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
     <name>simplePay4j-wechat</name>
     <url>https://github.com/YaoguaiDa/simplepay4j</url>
-    <description>支付工具拓展包</description>
+    <description>微信支付工具拓展包</description>
     <inceptionYear>2019</inceptionYear>
     <licenses>
         <license>

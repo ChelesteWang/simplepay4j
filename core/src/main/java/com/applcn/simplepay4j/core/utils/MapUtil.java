@@ -24,8 +24,10 @@ public class MapUtil {
         Map<String, String> map = new HashMap<>(fields.length);
         for (Field item : fields) {
             String key = item.getName().getClass().getAnnotation(XmlNode.class).value();
-            String value = item.get(object).toString();
-            map.put(key, value);
+            if (!"sign".equals(key)) {
+                String value = item.get(object).toString();
+                map.put(key, value);
+            }
         }
         return map;
     }

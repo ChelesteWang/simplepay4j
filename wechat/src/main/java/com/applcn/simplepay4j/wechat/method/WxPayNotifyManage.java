@@ -29,7 +29,6 @@ public class WxPayNotifyManage implements NotifyManageProxy {
     public WxPayPayOrderModel manage() throws Exception {
         String sign = model.getSign();
         SignTypeEnum signType = SignTypeEnum.valueOf(model.getSign());
-        model.setSign(null);
         Map<String,String> params = MapUtil.pojoToMap(model);
         String checkSign = SignUtil.sign(params, this.key, signType);
         if(sign.equals(checkSign)){
