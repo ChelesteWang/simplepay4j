@@ -3,6 +3,7 @@ package com.applcn.simplepay4j.wechat.method;
 import com.applcn.simplepay4j.core.model.PayOrderModel;
 import com.applcn.simplepay4j.core.proxy.NotifyManageProxy;
 import com.applcn.simplepay4j.core.utils.MapUtil;
+import com.applcn.simplepay4j.core.utils.StringUtil;
 import com.applcn.simplepay4j.wechat.model.WxPayPayOrderModel;
 import com.applcn.simplepay4j.wechat.util.SignUtil;
 import com.applcn.simplepay4j.wechat.enums.SignTypeEnum;
@@ -28,10 +29,13 @@ public class WxPayNotifyManage implements NotifyManageProxy {
     @Override
     public WxPayPayOrderModel manage() throws Exception {
         String sign = model.getSign();
-        SignTypeEnum signType = SignTypeEnum.valueOf(model.getSign());
+        SignTypeEnum signType = SignTypeEnum.MD5;
+        if (!StringUtil.isEmpty(model.getSignType())) {
+            signType = SignTypeEnum.valueOf(model.getSignType());
+        }
         Map<String,String> params = MapUtil.pojoToMap(model);
         String checkSign = SignUtil.sign(params, this.key, signType);
-        if(sign.equals(checkSign)){
+        if(sign.equalsIgnoreCase(checkSign)){
             return model;
         }else{
             return null;

@@ -19,14 +19,14 @@ public class SignUtil {
     public static String sign(Map<String,String> params, String key, SignTypeEnum signType) throws Exception {
         String sign;
 
-        if(signType != null && SignTypeEnum.HMAC_SHA256 == signType){
-            params.put(WxUnifiedOrderRquestConsts.SIGN_TYPE, signType.getValue());
-            String str = String.format("%skey=%s", SignUtil.sortByAsciiAsc(params), key);
-            sign = EncryptUtil.hmacSHA256(str, key);
-        }else{
-            String str = String.format("%skey=%s", SignUtil.sortByAsciiAsc(params), key);
-            sign = EncryptUtil.md5encryption(str);
-        }
+            if (signType != null && SignTypeEnum.HMAC_SHA256 == signType) {
+                params.put(WxUnifiedOrderRquestConsts.SIGN_TYPE, signType.getValue());
+                String str = String.format("%skey=%s", SignUtil.sortByAsciiAsc(params), key);
+                sign = EncryptUtil.hmacSHA256(str, key);
+            } else {
+                String str = String.format("%skey=%s", SignUtil.sortByAsciiAsc(params), key);
+                sign = EncryptUtil.md5encryption(str);
+            }
 
         return sign;
     }

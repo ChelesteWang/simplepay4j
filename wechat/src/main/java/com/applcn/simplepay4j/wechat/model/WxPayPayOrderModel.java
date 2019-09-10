@@ -86,8 +86,8 @@ public class WxPayPayOrderModel implements PayOrderModel {
     /**
      * 是否关注公众账号
      */
-    @XmlNode("isSubscribe")
-    private String isSubscribe;
+    @XmlNode("is_subscribe")
+    private String isSubscribe = "N";
 
     /**
      * 交易类型

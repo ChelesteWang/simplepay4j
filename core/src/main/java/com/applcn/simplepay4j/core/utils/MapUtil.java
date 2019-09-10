@@ -22,11 +22,16 @@ public class MapUtil {
     public static Map<String, String> pojoToMap(Object object) throws Exception {
         Field[] fields = object.getClass().getDeclaredFields();
         Map<String, String> map = new HashMap<>(fields.length);
+
         for (Field item : fields) {
-            String key = item.getName().getClass().getAnnotation(XmlNode.class).value();
+            String key = null;
+            item.setAccessible(true);
+            key = item.getAnnotation(XmlNode.class).value();
             if (!"sign".equals(key)) {
-                String value = item.get(object).toString();
-                map.put(key, value);
+                String value = String.valueOf(item.get(object));
+                if (!value.equals("null")) {
+                    map.put(key, value);
+                }
             }
         }
         return map;
