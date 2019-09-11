@@ -14,6 +14,7 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -29,17 +30,17 @@ public class ExampleApplicationTests {
 	/**
 	 * 小程序、公众号等appid
 	 */
-	private static final String appid = "wxfbf561fd39c188b8";
+	private static final String appid = "";
 
 	/**
 	 * 商户平台商户号
 	 */
-	private static final String mchId = "1527460041";
+	private static final String mchId = "";
 
 	/**
 	 * 商户平台秘钥
 	 */
-	private static final String key = "i3si6hmITG0a876e8bBoJtDavGP9yAtt";
+	private static final String key = "";
 
 	/**
 	 * 付款用户的openid
@@ -253,7 +254,8 @@ public class ExampleApplicationTests {
 		/**
 		 * in为微信传来的数据流
 		 */
-		InputStream in = new FileInputStream("");
+		String str = "<xml><appid><![CDATA[wxb7784511b3f1d7cd]]></appid><bank_type><![CDATA[CFT]]></bank_type><cash_fee><![CDATA[1]]></cash_fee><fee_type><![CDATA[CNY]]></fee_type><is_subscribe><![CDATA[N]]></is_subscribe><mch_id><![CDATA[1515160051]]></mch_id><nonce_str><![CDATA[d96bc6ffef1148fa97867a0de9d253a9]]></nonce_str><openid><![CDATA[ofPkK0hO0F1TRRxLKl4IvmiM1ma4]]></openid><out_trade_no><![CDATA[9izxk91568180606546]]></out_trade_no><result_code><![CDATA[SUCCESS]]></result_code><return_code><![CDATA[SUCCESS]]></return_code><sign><![CDATA[B41C5F19D0AF2C9ECE62A4CA014D63C9]]></sign><time_end><![CDATA[20190911134425]]></time_end><total_fee>1</total_fee><trade_type><![CDATA[NATIVE]]></trade_type><transaction_id><![CDATA[4200000405201909112629813729]]></transaction_id></xml>";
+		InputStream in = new ByteArrayInputStream(str.getBytes());
 		NotifyManageProxy proxy = Wechat.payNotifyManage(in, key);
 		PayOrderModel model = proxy.manage();
 		if(model != null){

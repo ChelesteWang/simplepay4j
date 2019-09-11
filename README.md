@@ -28,16 +28,6 @@ github地址：https://github.com/YaoguaiDa/simplepay4j.git
      </dependency>
     ```
         * 刷新maven
-    * maven仓库中的版本(包名调整之前的)：
-        * 直接在自己的项目pom.xml文件<dependencies></dependencies>节点下加入
-    ```xml
-     <dependency>
-        <groupId>com.applcn</groupId>
-        <artifactId>wechat</artifactId>
-        <version>1.0.0-alpha</version>
-     </dependency>
-    ```
-        * 刷新maven
 * 简单使用
     * jsapi/jssdk/微信小程序支付：
     ```java
